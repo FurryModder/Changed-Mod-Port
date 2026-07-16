@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "tag":  "changed:crafting_white_block"
+                   },
+    "result":  {
+                   "id":  "changed:wall_blue_tiled",
+                   "count":  1
+               }
+}

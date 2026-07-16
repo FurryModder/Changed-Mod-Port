@@ -1,0 +1,10 @@
+{
+  "render_type": "minecraft:cutout",
+  "parent": "changed:custom/beaker_filled",
+  "textures": {
+    "all": "changed:block/beaker/beaker",
+    "particle": "changed:block/beaker/beaker",
+    "0": "changed:block/beaker/beaker",
+    "1": "changed:block/beaker/dark_latex_beaker"
+  }
+}

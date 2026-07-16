@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:barrier",
+    "minecraft:cobweb",
+    "minecraft:glass",
+    "minecraft:glass_pane",
+    "minecraft:honey_block",
+    "minecraft:ice",
+    "minecraft:light",
+    "minecraft:red_stained_glass",
+    "minecraft:red_stained_glass_pane",
+    "minecraft:tripwire",
+    "minecraft:tripwire_hook",
+    "minecraft:vine",
+    "minecraft:white_stained_glass",
+    "minecraft:white_stained_glass_pane"
+  ]
+}

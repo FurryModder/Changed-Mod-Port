@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "changed:item/golden_upper_abdomen_armor",
+    "layer1": "changed:trims/items/upper_abdomen_armor_trim_redstone"
+  }
+}

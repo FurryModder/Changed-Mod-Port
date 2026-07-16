@@ -1,0 +1,12 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/long/maintenance/corridor_maintenance_v2_container",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "maximum": 1,
+  "spawn_weight": 10,
+  "neighboring_zones": [
+    "changed:maintenance"
+  ]
+}

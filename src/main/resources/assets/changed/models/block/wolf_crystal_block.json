@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "changed:block/wolf_crystal_block",
+    "up": "changed:block/wolf_crystal_block",
+    "north": "changed:block/wolf_crystal_block",
+    "east": "changed:block/wolf_crystal_block",
+    "south": "changed:block/wolf_crystal_block",
+    "west": "changed:block/wolf_crystal_block",
+    "particle": "changed:block/wolf_crystal_block"
+  }
+}

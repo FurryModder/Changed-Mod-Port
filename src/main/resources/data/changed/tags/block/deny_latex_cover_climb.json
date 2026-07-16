@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "#changed:deny_latex_cover",
+    "#c:glass_blocks",
+    "#c:glass_panes",
+    "minecraft:ice",
+    "minecraft:packed_ice",
+    "minecraft:frosted_ice",
+    "minecraft:blue_ice"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#G#",
+    "MGC",
+    "#G#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_block"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "M": {
+      "item": "minecraft:comparator"
+    },
+    "C": {
+      "item": "changed:computer"
+    }
+  },
+  "result": {
+    "id": "changed:stasis_chamber"
+  }
+}

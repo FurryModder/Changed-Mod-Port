@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "changed:block/tiles_grayblue",
+    "side": "changed:block/tiles_grayblue_slab_side"
+  }
+}

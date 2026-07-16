@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="MIT License"
+
+[[mods]]
+modId="changed"
+version="0.15.7"
+displayName="Changed: Minecraft Mod"
+logoFile="icon@400.png"
+authors="FurryModder"
+description='''Gooey transfur mod inspired by Dragon Snow's Changed.'''
+[[dependencies.changed]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.changed]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1]"
+    ordering="NONE"
+    side="BOTH"

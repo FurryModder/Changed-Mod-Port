@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:entrance",
+    "template": "changed:facility/entrance/entrance_blue2",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:entrance"
+  ]
+}

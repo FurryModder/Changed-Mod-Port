@@ -1,0 +1,20 @@
+{
+  "zone": "changed:office",
+  "available": 200,
+  "spawns": [
+    {
+      "type": "changed:dark_latex_wolf_male",
+      "weight": 100,
+      "minimum": 0,
+      "maximum": 15,
+      "cost": 10
+    },
+    {
+      "type": "changed:dark_latex_wolf_female",
+      "weight": 100,
+      "minimum": 0,
+      "maximum": 15,
+      "cost": 10
+    }
+  ]
+}

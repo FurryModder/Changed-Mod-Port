@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/extended/blue/longhallway3_blue",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:entrance"
+  ]
+}

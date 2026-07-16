@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:water",
+    "changed:wolf_gas",
+    "changed:wolf_gas_flowing",
+    "changed:tiger_gas",
+    "changed:tiger_gas_flowing",
+    "changed:skunk_gas",
+    "changed:skunk_gas_flowing"
+  ]
+}

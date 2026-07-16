@@ -1,0 +1,132 @@
+{
+  "variants": {
+    "facing=east,half=bottom,open=false": {
+      "bottom": null,
+      "north": { "model": "changed:trapdoor/north_3px_up" },
+      "east": { "model": "changed:trapdoor/north_3px_up", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_up", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_up", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_bottom" }
+    },
+    "facing=east,half=bottom,open=true": {
+      "west": null,
+      "north": { "model": "changed:trapdoor/east_3px_south", "y": 270 },
+      "south": { "model": "changed:trapdoor/west_3px_south", "y": 270 },
+      "top": { "model": "changed:trapdoor/top_3px_south", "y": 270 },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_west" }
+    },
+    "facing=east,half=top,open=false": {
+      "top": null,
+      "north": { "model": "changed:trapdoor/north_3px_down" },
+      "east": { "model": "changed:trapdoor/north_3px_down", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_down", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_down", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_top" }
+    },
+    "facing=east,half=top,open=true": {
+      "west": null,
+      "north": { "model": "changed:trapdoor/east_3px_south", "y": 270 },
+      "south": { "model": "changed:trapdoor/west_3px_south", "y": 270 },
+      "top": { "model": "changed:trapdoor/top_3px_south", "y": 270 },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_west" }
+    },
+    "facing=north,half=bottom,open=false": {
+      "bottom": null,
+      "north": { "model": "changed:trapdoor/north_3px_up" },
+      "east": { "model": "changed:trapdoor/north_3px_up", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_up", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_up", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_bottom" }
+    },
+    "facing=north,half=bottom,open=true": {
+      "south": null,
+      "east": { "model": "changed:trapdoor/west_3px_south", "y": 180 },
+      "west": { "model": "changed:trapdoor/east_3px_south", "y": 180 },
+      "top": { "model": "changed:trapdoor/top_3px_south", "y": 180 },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south", "y": 180 },
+      "extra": { "model": "changed:trapdoor/extra_south" }
+    },
+    "facing=north,half=top,open=false": {
+      "top": null,
+      "north": { "model": "changed:trapdoor/north_3px_down" },
+      "east": { "model": "changed:trapdoor/north_3px_down", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_down", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_down", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_top" }
+    },
+    "facing=north,half=top,open=true": {
+      "south": null,
+      "east": { "model": "changed:trapdoor/west_3px_south", "y": 180 },
+      "west": { "model": "changed:trapdoor/east_3px_south", "y": 180 },
+      "top": { "model": "changed:trapdoor/top_3px_south", "y": 180 },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south", "y": 180 },
+      "extra": { "model": "changed:trapdoor/extra_south" }
+    },
+    "facing=south,half=bottom,open=false": {
+      "bottom": null,
+      "north": { "model": "changed:trapdoor/north_3px_up" },
+      "east": { "model": "changed:trapdoor/north_3px_up", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_up", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_up", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_bottom" }
+    },
+    "facing=south,half=bottom,open=true": {
+      "north": null,
+      "east": { "model": "changed:trapdoor/east_3px_south" },
+      "west": { "model": "changed:trapdoor/west_3px_south" },
+      "top": { "model": "changed:trapdoor/top_3px_south" },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south" },
+      "extra": { "model": "changed:trapdoor/extra_north" }
+    },
+    "facing=south,half=top,open=false": {
+      "top": null,
+      "north": { "model": "changed:trapdoor/north_3px_down" },
+      "east": { "model": "changed:trapdoor/north_3px_down", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_down", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_down", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_top" }
+    },
+    "facing=south,half=top,open=true": {
+      "north": null,
+      "east": { "model": "changed:trapdoor/east_3px_south" },
+      "west": { "model": "changed:trapdoor/west_3px_south" },
+      "top": { "model": "changed:trapdoor/top_3px_south" },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south" },
+      "extra": { "model": "changed:trapdoor/extra_north" }
+    },
+    "facing=west,half=bottom,open=false": {
+      "bottom": null,
+      "north": { "model": "changed:trapdoor/north_3px_up" },
+      "east": { "model": "changed:trapdoor/north_3px_up", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_up", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_up", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_bottom" }
+    },
+    "facing=west,half=bottom,open=true": {
+      "east": null,
+      "north": { "model": "changed:trapdoor/west_3px_south", "y": 90 },
+      "south": { "model": "changed:trapdoor/east_3px_south", "y": 90 },
+      "top": { "model": "changed:trapdoor/top_3px_south", "y": 90 },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south", "y": 90 },
+      "extra": { "model": "changed:trapdoor/extra_east" }
+    },
+    "facing=west,half=top,open=false": {
+      "top": null,
+      "north": { "model": "changed:trapdoor/north_3px_down" },
+      "east": { "model": "changed:trapdoor/north_3px_down", "y": 90 },
+      "south": { "model": "changed:trapdoor/north_3px_down", "y": 180 },
+      "west": { "model": "changed:trapdoor/north_3px_down", "y": 270 },
+      "extra": { "model": "changed:trapdoor/extra_top" }
+    },
+    "facing=west,half=top,open=true": {
+      "east": null,
+      "north": { "model": "changed:trapdoor/west_3px_south", "y": 90 },
+      "south": { "model": "changed:trapdoor/east_3px_south", "y": 90 },
+      "top": { "model": "changed:trapdoor/top_3px_south", "y": 90 },
+      "bottom": { "model": "changed:trapdoor/bottom_3px_south", "y": 90 },
+      "extra": { "model": "changed:trapdoor/extra_east" }
+    }
+  }
+}

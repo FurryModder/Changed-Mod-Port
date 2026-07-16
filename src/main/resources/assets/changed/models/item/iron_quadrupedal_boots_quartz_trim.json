@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "changed:item/iron_quadrupedal_boots",
+    "layer1": "changed:trims/items/quadrupedal_boots_trim_quartz"
+  }
+}

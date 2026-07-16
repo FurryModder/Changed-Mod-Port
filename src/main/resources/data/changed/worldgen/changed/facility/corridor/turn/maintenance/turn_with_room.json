@@ -1,0 +1,12 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/turn/maintenance/corridor_maintenance_turn_with_room",
+    "loot_table": "changed:chests/high_tier_lab"
+  },
+  "spawn_weight": 20,
+  "maximum": 1,
+  "neighboring_zones": [
+    "changed:maintenance"
+  ]
+}

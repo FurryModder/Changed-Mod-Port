@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "changed:tiles_white",
+    "changed:wall_white",
+    "minecraft:quartz_block",
+    "minecraft:quartz_bricks",
+    "minecraft:smooth_quartz",
+    "minecraft:white_concrete",
+    "minecraft:white_terracotta"
+  ]
+}

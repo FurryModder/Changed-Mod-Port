@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CLC",
+    "D#D",
+    "BAB"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "L": {
+      "item": "changed:laser_emitter"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    },
+    "A": {
+      "item": "minecraft:armor_stand"
+    },
+    "#": {
+      "item": "changed:computer"
+    }
+  },
+  "result": {
+    "id": "changed:exoskeleton"
+  }
+}

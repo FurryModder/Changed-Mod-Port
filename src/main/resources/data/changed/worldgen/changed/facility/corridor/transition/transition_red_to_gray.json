@@ -1,0 +1,12 @@
+{
+  "piece": {
+    "type": "changed:transition",
+    "template": "changed:facility/corridor/transition/transition_red_to_gray",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:general",
+    "changed:office"
+  ]
+}

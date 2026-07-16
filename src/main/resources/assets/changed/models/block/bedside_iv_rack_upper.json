@@ -1,0 +1,9 @@
+{
+  "render_type": "minecraft:translucent",
+  "parent": "changed:custom/bedside_iv_rack_upper",
+  "textures": {
+    "all": "changed:block/bedside_iv_rack",
+    "particle": "changed:block/bedside_iv_rack",
+    "1": "changed:block/bedside_iv_rack"
+  }
+}

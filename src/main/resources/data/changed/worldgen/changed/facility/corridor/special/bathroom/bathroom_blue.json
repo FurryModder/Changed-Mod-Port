@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/special/bathroom/bathroom_blue",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 14,
+  "neighboring_zones": [
+    "changed:entrance"
+  ]
+}

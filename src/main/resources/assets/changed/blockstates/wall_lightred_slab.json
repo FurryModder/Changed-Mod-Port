@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "changed:block/wall_lightred_slab"
+    },
+    "type=double": {
+      "model": "changed:block/wall_lightred"
+    },
+    "type=top": {
+      "model": "changed:block/wall_lightred_slab_top"
+    }
+  }
+}

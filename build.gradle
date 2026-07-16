@@ -1,0 +1,237 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.141'
+    id 'idea'
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+version = mod_version
+group = mod_group_id
+
+layout.buildDirectory = layout.projectDirectory.dir('build-port')
+
+base {
+    archivesName = "Changed-m${minecraft_version}-neo"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+sourceSets.main.java {
+    exclude 'net/changed/extension/rei/**'
+    exclude 'net/changed/extension/origins/**'
+    exclude 'net/changed/mixin/compatibility/BeyondEarth/**'
+    exclude 'net/changed/mixin/compatibility/CarryOn/**'
+    exclude 'net/changed/mixin/compatibility/CreatureChat/**'
+    exclude 'net/changed/mixin/compatibility/DoABarrelRoll/**'
+    exclude 'net/changed/mixin/compatibility/EMF/**'
+    exclude 'net/changed/mixin/compatibility/FirstPerson/**'
+    exclude 'net/changed/mixin/compatibility/Forgery/**'
+    exclude 'net/changed/mixin/compatibility/HardcoreRevival/**'
+    exclude 'net/changed/mixin/compatibility/JEG/**'
+    exclude 'net/changed/mixin/compatibility/Leashed/**'
+    exclude 'net/changed/mixin/compatibility/NotEnoughAnimations/**'
+    exclude 'net/changed/mixin/compatibility/Parcool/**'
+    exclude 'net/changed/mixin/compatibility/Pehkui/**'
+    exclude 'net/changed/mixin/compatibility/Personality/**'
+    exclude 'net/changed/mixin/compatibility/PlayerAnimator/**'
+    exclude 'net/changed/mixin/compatibility/PresenceFootsteps/**'
+    exclude 'net/changed/mixin/compatibility/SG2/**'
+    exclude 'net/changed/mixin/compatibility/SleepTight/**'
+    exclude 'net/changed/mixin/compatibility/TaCZ/**'
+    exclude 'net/changed/mixin/compatibility/Vivecraft/**'
+    exclude 'net/changed/mixin/compatibility/WATUT/**'
+    exclude 'net/changed/datagen/**'
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    exclude 'META-INF/mods.toml'
+    exclude '**/*.bbmodel'
+    exclude 'src/generated/**/.cache'
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    maven { url = 'https://maven.blamejared.com/' }
+    maven { url = 'https://maven.shedaniel.me/' }
+    maven { url = 'https://api.modrinth.com/maven' }
+    maven { url = 'https://maven.createmod.net/' }
+}
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        gameTestServer {
+            type = 'gameTestServer'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+    sodiumFabricApiBundle
+}
+
+def sodiumFabricApiModulesDir = layout.buildDirectory.dir('sodiumFabricApiModules')
+def extractSodiumFabricApiModules = tasks.register('extractSodiumFabricApiModules', Copy) {
+    from({ zipTree(configurations.sodiumFabricApiBundle.singleFile) }) {
+        include 'META-INF/jars/fabric-block-view-api-v2-*.jar'
+        include 'META-INF/jars/fabric-rendering-data-attachment-v1-*.jar'
+        eachFile { details ->
+            details.path = details.name
+        }
+    }
+    into sodiumFabricApiModulesDir
+    includeEmptyDirs = false
+}
+
+dependencies {
+    annotationProcessor project(':ap')
+
+    compileOnly 'io.github.llamalad7:mixinextras-common:0.4.1'
+    implementation 'io.github.llamalad7:mixinextras-neoforge:0.4.1'
+
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+
+    compileOnly 'maven.modrinth:apothic-attributes:Z0nG7STl'
+    compileOnly 'maven.modrinth:create:88L641Un'
+    compileOnly 'maven.modrinth:curios:yohfFbgD'
+    compileOnly 'maven.modrinth:entityculling:5zRIon6w'
+    compileOnly 'maven.modrinth:journeymap:RKfLrEYQ'
+    compileOnly 'info.journeymap:journeymap-api-neoforge:2.0.0-1.21.1'
+    compileOnly 'maven.modrinth:moonlight:5njDrYO0'
+    compileOnly 'maven.modrinth:sodium:Pb3OXVqC'
+    sodiumFabricApiBundle 'maven.modrinth:fabric-api:Lwt6YYHL'
+    compileOnly files("${buildDir}/sodiumFabricApiModules/fabric-block-view-api-v2-0.116.12.jar")
+    compileOnly files("${buildDir}/sodiumFabricApiModules/fabric-rendering-data-attachment-v1-0.116.12.jar")
+    compileOnly 'mezz.jei:jei-1.21.1-common-api:19.27.0.343'
+    compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.27.0.343'
+
+    // Dev-only compatibility test mods. These are added to the run classpath, not packed into the mod jar.
+    localRuntime 'maven.modrinth:apothic-attributes:Z0nG7STl'
+    localRuntime 'maven.modrinth:placebo:nU7CXkMr'
+    localRuntime 'maven.modrinth:create:88L641Un'
+    localRuntime 'dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.6'
+    localRuntime 'net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.69'
+    localRuntime 'maven.modrinth:curios:yohfFbgD'
+    localRuntime 'maven.modrinth:entityculling:5zRIon6w'
+    localRuntime 'maven.modrinth:moonlight:5njDrYO0'
+    localRuntime 'maven.modrinth:sodium:Pb3OXVqC'
+    localRuntime 'mezz.jei:jei-1.21.1-neoforge:19.27.0.343'
+}
+
+tasks.named('compileJava') {
+    dependsOn extractSodiumFabricApiModules
+}
+
+def generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
+    def replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from 'src/main/templates'
+    into layout.buildDirectory.dir('generated/sources/modMetadata')
+}
+
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+jar {
+    from('LICENSE.txt') {
+        into 'META-INF'
+        rename { 'LICENSE_changed.txt' }
+    }
+
+    from('TEMPLATE_LICENSE.txt') {
+        into 'META-INF'
+        rename { 'LICENSE_neoforge_mdk.txt' }
+    }
+
+    manifest {
+        attributes([
+                'Specification-Title'     : 'changed',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : project.mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

@@ -1,0 +1,11 @@
+package net.changed.item;
+
+import net.changed.init.ChangedBlocks;
+import net.changed.init.ChangedTabs;
+import net.minecraft.world.item.ItemNameBlockItem;
+
+public class LabBook extends ItemNameBlockItem {
+    public LabBook() {
+        super(ChangedBlocks.BOOK_STACK.get(), new Properties());
+    }
+}

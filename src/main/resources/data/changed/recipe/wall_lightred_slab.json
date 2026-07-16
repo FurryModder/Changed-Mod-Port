@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "changed:wall_lightred"
+    }
+  },
+  "result": {
+    "id": "changed:wall_lightred_slab",
+    "count": 6
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "piece": {
+    "type": "changed:split",
+    "template": "changed:facility/corridor/split/red/intersection3_red_tree",
+    "loot_table": "changed:chests/low_tier_lab",
+    "expected_dependents": 3
+  },
+  "spawn_weight": 5,
+  "neighboring_zones": [
+    "changed:office"
+  ]
+}

@@ -1,0 +1,139 @@
+package net.changed.block.entity;
+
+import net.changed.init.ChangedBlockEntities;
+import net.changed.init.ChangedFacilityPieceTypes;
+import net.changed.init.ChangedFacilityZones;
+import net.changed.init.ChangedRegistry;
+import net.changed.util.TagUtil;
+import net.changed.world.features.structures.facility.Zone;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.Arrays;
+import java.util.Optional;
+
+public class GluBlockEntity extends BlockEntity {
+    public static final String SIZE = "size";
+    public static final String HAS_DOOR = "door";
+    public static final String JOINT = "joint";
+    public static final String ZONE = "zone";
+    public static final String FINAL_STATE = "final_state";
+
+    private int size = 3;
+    private boolean hasDoor = false;
+    private JointType jointType = JointType.ENTRANCE;
+    private Zone zone = ChangedFacilityZones.ENTRANCE_ZONE.get();
+    private String finalState = "minecraft:air";
+
+    public GluBlockEntity(BlockPos pos, BlockState state) {
+        super(ChangedBlockEntities.GLU.get(), pos, state);
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    public boolean getHasDoor() {
+        return this.hasDoor;
+    }
+
+    public JointType getJointType() {
+        return this.jointType;
+    }
+
+    public Zone getZone() {
+        return this.zone;
+    }
+
+    public String getFinalState() {
+        return this.finalState;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setHasDoor(boolean hasDoor) {
+        this.hasDoor = hasDoor;
+    }
+
+    public void setJointType(JointType type) {
+        this.jointType = type;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public void setFinalState(String state) {
+        this.finalState = state;
+    }
+
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt(SIZE, this.size);
+        tag.putBoolean(HAS_DOOR, this.hasDoor);
+        tag.putString(JOINT, this.jointType.getSerializedName());
+        TagUtil.putResourceLocation(tag, ZONE, ChangedRegistry.FACILITY_ZONES.getKey(this.zone));
+        tag.putString(FINAL_STATE, this.finalState);
+    }
+
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.size = tag.getInt(SIZE);
+        this.hasDoor = tag.getBoolean(HAS_DOOR);
+        this.jointType = JointType.byName(tag.getString(JOINT)).orElse(JointType.ENTRANCE);
+        this.zone = ChangedRegistry.FACILITY_ZONES.getValue(TagUtil.getResourceLocation(tag, GluBlockEntity.ZONE));
+        this.finalState = tag.getString(FINAL_STATE);
+    }
+
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
+    }
+
+    public static enum JointType implements StringRepresentable {
+        ENTRANCE("entrance"),
+        EXIT("exit");
+
+        private final String name;
+
+        private JointType(String p_59455_) {
+            this.name = p_59455_;
+        }
+
+        public String getSerializedName() {
+            return this.name;
+        }
+
+        public static Optional<JointType> byName(String p_59458_) {
+            return Arrays.stream(values()).filter((p_59461_) -> {
+                return p_59461_.getSerializedName().equals(p_59458_);
+            }).findFirst();
+        }
+
+        public Component getTranslatedName() {
+            return Component.translatable("glu_block.joint." + this.name);
+        }
+
+        public JointType next() {
+            int nextOrdinal = this.ordinal() + 1;
+            if (nextOrdinal >= values().length)
+                nextOrdinal = 0;
+            return values()[nextOrdinal];
+        }
+
+        public boolean canConnectTo(JointType other) {
+            return this != other;
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mug": {
+      "conditions": {
+        "items": [
+          {
+            "items": "changed:mug"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "changed:mugs_filled"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_mug",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "changed:mug_with_coffee",
+      "changed:mug_with_dark_latex",
+      "changed:mug_with_milk",
+      "changed:mug_with_water",
+      "changed:mug_with_white_latex"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,80 @@
+package net.changed.entity.beast;
+
+import net.changed.Changed;
+import net.changed.entity.TransfurMode;
+import net.changed.entity.variant.TransfurVariant;
+import net.changed.init.ChangedTransfurVariants;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import org.jetbrains.annotations.Nullable;
+
+public class HeadlessKnight extends WhiteLatexKnight implements LatexTaur<HeadlessKnight> {
+    public HeadlessKnight(EntityType<? extends HeadlessKnight> p_19870_, Level p_19871_) {
+        super(p_19870_, p_19871_);
+    }
+
+    @Override
+    protected void setAttributes(AttributeMap attributes) {
+        super.setAttributes(attributes);
+        attributes.getInstance(Attributes.FOLLOW_RANGE).setBaseValue(8.0);
+        attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.15);
+        attributes.getInstance(NeoForgeMod.SWIM_SPEED).setBaseValue(0.9);
+    }
+
+    @Override
+    public TransfurMode getTransfurMode() {
+        return TransfurMode.ABSORPTION;
+    }
+
+    @Override
+    public boolean isSaddleable() {
+        return false;
+    }
+
+    public final static String SADDLE_LOCATION = Changed.modResourceStr("saddle");
+
+    @Override
+    public TransfurVariant<?> getSelfVariant() {
+        return null;
+    }
+
+    @Override
+    protected TransfurVariant<?> getTransfurVariant() {
+        return ChangedTransfurVariants.WHITE_LATEX_CENTAUR.get();
+    }
+
+    @Override
+    public void equipSaddle(ItemStack stack, @Nullable SoundSource p_21748_) {
+        equipSaddle(this, stack, p_21748_);
+    }
+
+    @Override
+    public boolean isSaddled() {
+        return isSaddled(this);
+    }
+
+    protected void doPlayerRide(Player player) {
+        doPlayerRide(this, player);
+    }
+
+    public double getPassengersRidingOffset() {
+        return super.getPassengersRidingOffset() + 0.8;
+    }
+
+    public InteractionResult mobInteract(Player p_30713_, InteractionHand p_30714_) {
+        if (isSaddled()) {
+            this.doPlayerRide(p_30713_);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        }
+
+        return InteractionResult.PASS;
+    }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "changed:block/wall_green_slab"
+    },
+    "type=double": {
+      "model": "changed:block/wall_green"
+    },
+    "type=top": {
+      "model": "changed:block/wall_green_slab_top"
+    }
+  }
+}

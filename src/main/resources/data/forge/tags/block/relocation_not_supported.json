@@ -1,0 +1,32 @@
+{
+  "replace": false,
+  "values": [
+    "changed:air_conditioner",
+    "changed:bedside_iv_rack",
+    "changed:beehive_bed",
+    "changed:box_pile",
+    "changed:lab_light",
+    "changed:latex_pup_crystal",
+    "changed:latex_container",
+    "changed:wolf_crystal",
+    "changed:dark_latex_crystal_large",
+    "changed:office_chair",
+    "changed:white_latex_pillar",
+
+    "changed:blue_lab_door",
+    "changed:maintenance_door",
+    "changed:lab_door",
+    "changed:library_door",
+    "changed:large_blue_lab_door",
+    "changed:large_maintenance_door",
+    "changed:large_lab_door",
+    "changed:large_library_door",
+
+    "changed:empty_canister",
+    "changed:oxygenated_water_canister",
+    "changed:skunk_gas_canister",
+    "changed:tiger_gas_canister",
+    "changed:wolf_gas_canister",
+    "changed:stasis_chamber"
+  ]
+}

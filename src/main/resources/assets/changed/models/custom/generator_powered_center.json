@@ -1,0 +1,36 @@
+{
+  "credit": "Made with Blockbench",
+  "texture_size": [96, 96],
+  "textures": {
+    "0": "changed:block/generator_on",
+    "particle": "changed:block/generator_on"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 8],
+      "to": [16, 16, 16],
+      "rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 4]},
+      "faces": {
+        "north": {"uv": [0, 0, 2.66667, 2.66667], "texture": "#0"},
+        "south": {"uv": [0, 2.66667, 2.66667, 5.33333], "texture": "#0"}
+      }
+    },
+    {
+      "from": [0, 4, 7],
+      "to": [16, 16, 8],
+      "rotation": {"angle": 0, "axis": "y", "origin": [0, 0, -4]},
+      "faces": {
+        "north": {"uv": [5.33333, 8, 8, 10], "texture": "#0"},
+        "down": {"uv": [14.33333, 7.33333, 11.66667, 7.5], "texture": "#0"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "Center",
+      "origin": [8, 8, 8],
+      "color": 0,
+      "children": [0, 1]
+    }
+  ]
+}

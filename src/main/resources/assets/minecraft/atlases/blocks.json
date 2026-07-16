@@ -1,0 +1,91 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "abilities",
+      "prefix": "abilities/"
+    },
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "changed:trims/items/lower_abdomen_armor_trim",
+        "changed:trims/items/upper_abdomen_armor_trim",
+        "changed:trims/items/quadrupedal_boots_trim",
+        "changed:trims/items/quadrupedal_leggings_trim"
+      ],
+      "palette_key": "trims/color_palettes/trim_palette",
+      "permutations": {
+        "quartz": "trims/color_palettes/quartz",
+        "iron": "trims/color_palettes/iron",
+        "gold": "trims/color_palettes/gold",
+        "diamond": "trims/color_palettes/diamond",
+        "netherite": "trims/color_palettes/netherite",
+        "redstone": "trims/color_palettes/redstone",
+        "copper": "trims/color_palettes/copper",
+        "emerald": "trims/color_palettes/emerald",
+        "lapis": "trims/color_palettes/lapis",
+        "amethyst": "trims/color_palettes/amethyst",
+        "iron_darker": "trims/color_palettes/iron_darker",
+        "gold_darker": "trims/color_palettes/gold_darker",
+        "diamond_darker": "trims/color_palettes/diamond_darker",
+        "netherite_darker": "trims/color_palettes/netherite_darker"
+      }
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_armor_slot_quadrupedal_feet"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_armor_slot_quadrupedal_legs"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_armor_slot_tail_feet"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_armor_slot_tail_legs"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_body_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_face_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_full_body_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_hands_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_head_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_legs_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_lower_body_side_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_lower_body_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_neck_slot"
+    },
+    {
+      "type": "single",
+      "resource": "changed:item/empty_slot_syringe"
+    }
+  ]
+}

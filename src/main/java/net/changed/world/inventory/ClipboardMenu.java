@@ -1,0 +1,18 @@
+package net.changed.world.inventory;
+
+import net.changed.block.TextEnterable;
+import net.changed.init.ChangedMenus;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class ClipboardMenu extends TextMenu {
+    public ClipboardMenu(int id, Inventory inventory, BlockPos pos, BlockState state, TextEnterable textMenuBlockEntity) {
+        super(ChangedMenus.CLIPBOARD.get(), id, inventory, pos, state, textMenuBlockEntity);
+    }
+
+    public ClipboardMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
+        super(ChangedMenus.CLIPBOARD.get(), id, inventory, extraData, true);
+    }
+}

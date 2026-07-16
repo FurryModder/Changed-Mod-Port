@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "changed:item/puro_the_black_goo_record"
+  }
+}

@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "tag":  "changed:crafting_tiles_caution_block"
+                   },
+    "result":  {
+                   "id":  "changed:tiles_caution",
+                   "count":  1
+               }
+}

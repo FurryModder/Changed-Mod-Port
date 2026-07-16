@@ -1,0 +1,90 @@
+package net.changed.item;
+
+import net.changed.entity.ChangedEntity;
+import net.changed.entity.TransfurCause;
+import net.changed.entity.TransfurContext;
+import net.changed.entity.ai.LatexAssimilationDecision;
+import net.changed.entity.variant.TransfurVariant;
+import net.changed.init.*;
+import net.changed.process.ProcessTransfur;
+import net.changed.util.UniversalDist;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item.TooltipContext;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class DarkLatexMask extends Item implements ExtendedItemProperties {
+    public DarkLatexMask() {
+        super(new Item.Properties());
+    }
+
+    @Override
+    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
+        return EquipmentSlot.HEAD;
+    }
+
+    public void fillItemList(Predicate<TransfurVariant<?>> predicate, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output) {
+        TransfurVariant.getPublicTransfurVariants()
+                .filter(variant -> variant.is(ChangedTags.TransfurVariants.MASKED))
+                .filter(predicate).forEach(variant -> {
+                    output.accept(Syringe.setOwner(
+                            Syringe.setPureVariant(new ItemStack(this), variant.getFormId()),
+                            UniversalDist.getLocalPlayer()));
+                });
+    }
+
+    @Override
+    public void wearTick(ItemStack itemStack, LivingEntity wearer) {
+        TransfurVariant<?> variant = Syringe.getVariant(itemStack);
+        if (variant == null)
+            variant = ChangedTransfurVariants.DARK_LATEX_WOLF_MALE.get();
+        if (TransfurVariant.getEntityVariant(wearer) == ChangedTransfurVariants.DARK_LATEX_WOLF_PARTIAL.get()) {
+            if (wearer.getRandom().nextFloat() > 0.005f || wearer.level().isClientSide) return; // 0.5% chance every tick the entity will switch TF into the mask variant
+
+            ChangedSounds.broadcastSound(ProcessTransfur.changeTransfur(wearer, variant), ChangedSounds.DARK_LATEX_MASK_COMPLETE_TRANSFUR, 1.0f, 1.0f);
+            itemStack.shrink(1);
+            return;
+        }
+
+        if (ProcessTransfur.progressTransfur(wearer, LatexAssimilationDecision.fromBlockOrItem(variant, TransfurContext.hazard(TransfurCause.FACE_HAZARD), 11.0f)))
+            itemStack.shrink(1);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack p_43359_, TooltipContext context, List<Component> p_43361_, TooltipFlag p_43362_) {
+        Syringe.addVariantTooltip(p_43359_, p_43361_);
+    }
+
+    @Override
+    public boolean customWearRenderer(ItemStack itemStack) {
+        return true;
+    }
+
+    @Override
+    public boolean allowedToWear(ItemStack itemStack, LivingEntity wearer, EquipmentSlot slot) {
+        if (TransfurVariant.getEntityVariant(wearer) == ChangedTransfurVariants.DARK_LATEX_WOLF_PARTIAL.get())
+            return true;
+
+        if (wearer instanceof ChangedEntity)
+            return false;
+        else if (wearer instanceof Player player && ProcessTransfur.isPlayerTransfurred(player))
+            return false;
+        else if (wearer instanceof AgeableMob ageableMob && ageableMob.isBaby())
+            return false;
+        else
+            return true;
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "SCS",
+    "#S#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:turtle_scute"
+    },
+    "S": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "C": {
+      "item": "minecraft:leather_chestplate"
+    }
+  },
+  "result": {
+    "id": "changed:tsc_vest"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "changed:custom/lab_light_left",
+  "textures": {
+    "all": "changed:block/lab_light_on",
+    "particle": "changed:block/lab_light_on",
+    "0": "changed:block/lab_light_on",
+    "emissive": "changed:block/lab_light_on_emissive"
+  }
+}

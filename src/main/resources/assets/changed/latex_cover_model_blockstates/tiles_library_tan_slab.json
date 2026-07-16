@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "type=bottom": {
+      "north": { "model": "changed:north_8px_up" },
+      "south": { "model": "changed:south_8px_up" },
+      "east": { "model": "changed:east_8px_up" },
+      "west": { "model": "changed:west_8px_up" },
+      "bottom": null,
+      "extra": { "model": "changed:slab/bottom_extra" }
+    },
+    "type=double": {
+      "north": null,
+      "south": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+    },
+    "type=top": {
+      "north": { "model": "changed:north_8px_down" },
+      "south": { "model": "changed:south_8px_down" },
+      "east": { "model": "changed:east_8px_down" },
+      "west": { "model": "changed:west_8px_down" },
+      "top": null,
+      "extra": { "model": "changed:slab/top_extra" }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "changed:block/tiles_blue",
+    "up": "changed:block/tiles_blue",
+    "north": "changed:block/tiles_blue",
+    "east": "changed:block/tiles_blue",
+    "south": "changed:block/tiles_blue",
+    "west": "changed:block/tiles_blue",
+    "particle": "changed:block/tiles_blue"
+  }
+}

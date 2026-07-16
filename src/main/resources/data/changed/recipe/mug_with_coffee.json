@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:cocoa_beans"
+    },
+    {
+      "item": "changed:mug_with_water"
+    }
+  ],
+  "result": {
+    "id": "changed:mug_with_coffee"
+  }
+}

@@ -1,0 +1,43 @@
+package net.changed.client.gui;
+
+import net.changed.Changed;
+import net.changed.world.inventory.NoteMenu;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+
+public class NoteScreen extends TextMenuScreen<NoteMenu> {
+    public NoteScreen(NoteMenu menu, Inventory inventory, Component title) {
+        super(menu, inventory.player, title);
+    }
+
+    @Override public int getBackgroundWidth() {
+        return 87;
+    }
+    @Override public int getBackgroundHeight() {
+        return 121;
+    }
+    @Override public int getTextAreaWidth() {
+        return 77;
+    }
+    @Override public int getTextAreaHeight() {
+        return 101;
+    }
+    @Override public int getTextAreaX() {
+        return 5;
+    }
+    @Override public int getTextAreaY() {
+        return 15;
+    }
+
+    @Override
+    public ResourceLocation getBackground() {
+        return Changed.modResource("textures/gui/note_container.png");
+    }
+
+    private static final Component NOTE = Component.translatable("container.changed.note");
+    @Override
+    public Component getNoteTitle() {
+        return NOTE;
+    }
+}

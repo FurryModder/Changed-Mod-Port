@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "tag":  "changed:crafting_cyan_block"
+                   },
+    "result":  {
+                   "id":  "changed:tiles_teal",
+                   "count":  1
+               }
+}

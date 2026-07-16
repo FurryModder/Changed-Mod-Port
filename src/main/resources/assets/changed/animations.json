@@ -1,0 +1,31 @@
+{
+  "changed:stasis_idle": {
+    "category": "idle",
+    "animations": [
+      {
+        "name": "changed:stasis_idle",
+        "criteria": {}
+      }
+    ]
+  },
+  "changed:shock_stun": {
+    "category": "idle",
+    "animations": [
+      {
+        "name": "changed:stun",
+        "criteria": {}
+      }
+    ]
+  },
+  "changed:transfur": {
+    "category": "transfur",
+    "animations": [
+      {
+        "name": "changed:transfur/placeholder",
+        "criteria": {
+          "changed:cause": [ "grab_replicate", "grab_absorb" ]
+        }
+      }
+    ]
+  }
+}

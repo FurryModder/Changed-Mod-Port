@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_savanna",
+  "spawners": [
+    { "type": "changed:latex_hypno_cat", "weight": 6, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_medusa_cat", "weight": 4, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_gnoll_taur", "weight": 4, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:green_lizard", "weight": 2, "minCount": 1, "maxCount": 2 },
+    { "type": "changed:latex_golden_dragon", "weight": 1, "minCount": 1, "maxCount": 3 }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:staircase_start",
+    "template": "changed:facility/staircase/staircase_start_red",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:office"
+  ]
+}

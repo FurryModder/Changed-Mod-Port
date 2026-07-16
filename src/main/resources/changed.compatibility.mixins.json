@@ -1,0 +1,34 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.changed.mixin.compatibility",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "changed.refmap.json",
+  "plugin": "net.changed.mixin.compatibility.ChangedMixinPlugin",
+  "mixins": [
+    "AttributesLib.AttributeEventsMixin",
+    "Curios.CuriosApiMixin"
+  ],
+  "client": [
+    "Create.AdvancedHumanoidRendererMixin",
+    "Create.HumanoidAnimatorMixin",
+    "Curios.AdvancedHumanoidRendererMixin",
+    "Curios.PlayerLayerWrapperMixin",
+    "EntityCulling.WaveVisionRendererMixin",
+    "JourneyMap.MobIconCacheMixin",
+    "Moonlight.AbstractUpperBodyAnimatorMixin",
+    "Moonlight.LatexItemInHandLayerMixin",
+    "Sodium.ChunkBuilderTaskAccessor",
+    "Sodium.ChunkRenderRebuildTaskMixin",
+    "Sodium.ClonedChunkSectionMixin",
+    "Sodium.CubeDefinitionMixin",
+    "Sodium.DefaultShaderInterfaceMixin",
+    "Sodium.EntityRendererMixin",
+    "Sodium.ModelCuboidMixin",
+    "Sodium.ShaderLoaderMixin",
+    "Sodium.WorldSliceMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

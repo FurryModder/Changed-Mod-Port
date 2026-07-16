@@ -1,0 +1,284 @@
+package net.changed.extension;
+
+import com.mojang.logging.LogUtils;
+import net.changed.data.AccessorySlots;
+import net.changed.util.Cacheable;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.fml.loading.FMLLoader;
+import net.changed.compat.ForgeRegistries;
+import net.changed.compat.IForgeRegistry;
+import org.slf4j.Logger;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+public class ChangedCompatibility {
+    private static final Logger LOGGER = LogUtils.getLogger();
+    private static Field findField(String className, String fieldName) {
+        Field tmp;
+        try {
+            var clazz = Class.forName(className);
+            tmp = clazz.getDeclaredField(fieldName);
+            tmp.setAccessible(true);
+            LOGGER.info("Found compatibility for class {}, field {}", className, fieldName);
+        } catch (Exception ignored) {
+            tmp = null;
+        }
+
+        return tmp;
+    }
+
+    private static Method findMethod(String className, String functionName, Class<?>... param) {
+        Method tmp;
+        try {
+            var clazz = Class.forName(className);
+            tmp = clazz.getDeclaredMethod(functionName, param);
+            tmp.setAccessible(true);
+            LOGGER.info("Found compatibility for class {}, method {}", className, functionName);
+        } catch (Exception ignored) {
+            tmp = null;
+        }
+
+        return tmp;
+    }
+
+    public static void addDataListeners(AddReloadListenerEvent event) {
+    }
+
+    public static class ClassField<Clazz, T> implements Function<Clazz, T> {
+        private final Field field;
+
+        public ClassField(Field field) {
+            this.field = field;
+        }
+
+        @Override
+        public T apply(Clazz clazz) {
+            try {
+                return field != null ? (T) field.get(clazz) : null;
+            } catch (IllegalAccessException e) {
+                return null;
+            }
+        }
+
+        public T applyOr(Clazz clazz, T value) {
+            try {
+                return field != null ? (T) field.get(clazz) : value;
+            } catch (IllegalAccessException e) {
+                return value;
+            }
+        }
+
+        public Supplier<T> partialRead(Clazz clazz) {
+            return () -> apply(clazz);
+        }
+
+        public static <Clazz, T> ClassField<Clazz, T> of(String className, String fieldName) {
+            return new ClassField<>(findField(className, fieldName));
+        }
+    }
+
+    public static class ClassFunction<Clazz, T, R> implements BiFunction<Clazz, T, R> {
+        private final Method method;
+
+        public ClassFunction(Method method) {
+            this.method = method;
+        }
+
+        @Override
+        public R apply(Clazz clazz, T param) {
+            try {
+                return method != null ? (R) method.invoke(clazz, param) : null;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                return null;
+            }
+        }
+
+        public R applyOr(Clazz clazz, T param, R value) {
+            try {
+                return method != null ? (R) method.invoke(clazz, param) : value;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                return value;
+            }
+        }
+
+        public Function<T, R> partialInvoke(Clazz clazz) {
+            return param -> apply(clazz, param);
+        }
+
+        public static <Clazz, T, R> ClassFunction<Clazz, T, R> of(String className, String functionName, Class<?>... param) {
+            return new ClassFunction<>(findMethod(className, functionName, param));
+        }
+    }
+
+    public static class StaticField<T> implements Supplier<T> {
+        private final Field field;
+
+        public StaticField(Field field) {
+            this.field = field;
+        }
+
+        @Override
+        public T get() {
+            try {
+                return field != null ? (T) field.get(null) : null;
+            } catch (IllegalAccessException e) {
+                return null;
+            }
+        }
+
+        public T getOr(T value) {
+            try {
+                return field != null ? (T) field.get(null) : value;
+            } catch (IllegalAccessException e) {
+                return value;
+            }
+        }
+
+        public static <T> StaticField<T> of(String className, String fieldName) {
+            return new StaticField<>(findField(className, fieldName));
+        }
+    }
+
+    public static class StaticFunction<T, R> implements Function<T, R> {
+        private final Method method;
+
+        public StaticFunction(Method method) {
+            this.method = method;
+        }
+
+        @Override
+        public R apply(T input) {
+            try {
+                return method != null ? (R) method.invoke(null, input) : null;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                return null;
+            }
+        }
+
+        public R applyOr(T input, R value) {
+            try {
+                return method != null ? (R) method.invoke(null, input) : value;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                return value;
+            }
+        }
+
+        public static <T, R> StaticFunction<T, R> of(String className, String fieldName, Class<?>... param) {
+            return new StaticFunction<>(findMethod(className, fieldName, param));
+        }
+    }
+
+    public static final StaticField<Boolean> dev_tr7zw_firstperson$FirstPersonModelCore$isRenderingPlayer =
+            StaticField.of("dev.tr7zw.firstperson.FirstPersonModelCore", "isRenderingPlayer");
+    public static final StaticFunction<Entity, Boolean> by_dragonsurvivalteam_dragonsurvival_util$DragonUtils$isDragon =
+            StaticFunction.of("by.dragonsurvivalteam.dragonsurvival.util.DragonUtils", "isDragon", Entity.class);
+    public static final StaticField<Set<UUID>> com_simibubi_create_foundation_render_PlayerSkyhookRenderer$hangingPlayers =
+            StaticField.of("com.simibubi.create.foundation.render.PlayerSkyhookRenderer", "hangingPlayers");
+    public static Boolean frozen_isFirstPersonRendering = null;
+
+    public static void freezeIsFirstPersonRendering() {
+        frozen_isFirstPersonRendering = isFirstPersonRendering();
+    }
+
+    public static void freezeIsFirstPersonRendering(boolean value) {
+        frozen_isFirstPersonRendering = value;
+    }
+
+    public static void thawIsFirstPersonRendering() {
+        frozen_isFirstPersonRendering = null;
+    }
+
+    public static void forceIsFirstPersonRenderingToFrozen() {
+        if (frozen_isFirstPersonRendering != null && dev_tr7zw_firstperson$FirstPersonModelCore$isRenderingPlayer.field != null) {
+            try {
+                dev_tr7zw_firstperson$FirstPersonModelCore$isRenderingPlayer.field.set(null, frozen_isFirstPersonRendering);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void forceIsFirstPersonRendering(boolean value) {
+        if (dev_tr7zw_firstperson$FirstPersonModelCore$isRenderingPlayer.field != null) {
+            try {
+                dev_tr7zw_firstperson$FirstPersonModelCore$isRenderingPlayer.field.set(null, value);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean isFirstPersonRendering() {
+        if (frozen_isFirstPersonRendering != null)
+            return frozen_isFirstPersonRendering;
+        if (dev_tr7zw_firstperson$FirstPersonModelCore$isRenderingPlayer.getOr(false))
+            return true;
+        return false;
+    }
+
+    public static boolean isPlayerUsedByOtherMod(Player player) {
+        if (by_dragonsurvivalteam_dragonsurvival_util$DragonUtils$isDragon.applyOr(player, false))
+            return true;
+        return false;
+    }
+
+    private static <T> Cacheable<T> findRegistryObject(Registry<T> registry, ResourceLocation name) {
+        return Cacheable.of(() -> {
+            var item = registry.get(name);
+            if (item != null)
+                LOGGER.info("Found registry object {}", ResourceKey.create(registry.key(), name));
+            else
+                LOGGER.debug("Missing registry object {}, skipping", ResourceKey.create(registry.key(), name));
+            return item;
+        });
+    }
+
+    private static <T> Cacheable<T> findRegistryObject(IForgeRegistry<T> registry, ResourceLocation name) {
+        return Cacheable.of(() -> {
+            var item = registry.getValue(name);
+            if (item != null)
+                LOGGER.info("Found forge registry object {}", ResourceKey.create(registry.getRegistryKey(), name));
+            else
+                LOGGER.debug("Missing forge registry object {}, skipping", ResourceKey.create(registry.getRegistryKey(), name));
+            return item;
+        });
+    }
+
+    public static void shouldAccessoryDropOnDeath(AccessorySlots.DropItemEvent event) {
+    }
+
+    public static boolean isModPresent(String modId) {
+        return FMLLoader.getLoadingModList().getModFileById(modId) != null;
+    }
+
+    public static double correctAttributeScaling(Attribute attribute, double original) {
+        if ((isModPresent("attributeslib") || isModPresent("apothic_attributes")) &&
+                attribute == net.minecraft.world.entity.ai.attributes.Attributes.STEP_HEIGHT)
+            return original + 0.6; // Apothic Attributes ignores maxStepUp (default: 0.6), so compensate
+        return original;
+    }
+
+    public static boolean shouldIgnoreWaveVisionRenderTypesOutsideOfWaveVision() {
+        return isModPresent("rubidium") || isModPresent("embeddium") || isModPresent("sodium");
+    }
+
+    public static boolean shouldRenderWaveVisionTerrainWithShaderMask() {
+        return isModPresent("sodium");
+    }
+}

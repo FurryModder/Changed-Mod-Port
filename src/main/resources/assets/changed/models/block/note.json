@@ -1,0 +1,9 @@
+{
+  "render_type": "minecraft:cutout",
+  "parent": "changed:custom/note",
+  "textures": {
+    "all": "changed:block/note",
+    "particle": "changed:block/note",
+    "0": "changed:block/note"
+  }
+}

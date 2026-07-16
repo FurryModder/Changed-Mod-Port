@@ -1,0 +1,64 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "CHANGED_INFUSER",
+      "constructor": "()V",
+      "parameters": []
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "CHANGED_INFUSER_SEARCH",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "method": "getSearchIcon"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "CHANGED_INFUSER_DARK_LATEX",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "method": "getDarkLatexIcon"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "CHANGED_INFUSER_WHITE_LATEX",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "method": "getWhiteLatexIcon"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "CHANGED_INFUSER_AQUATIC",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "method": "getAquaticIcon"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "CHANGED_INFUSER_AERIAL",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "method": "getAerialIcon"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "CHANGED_INFUSER_GENDERED",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "method": "getGenderedIcon"
+      }
+    }
+  ]
+}

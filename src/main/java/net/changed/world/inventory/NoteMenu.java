@@ -1,0 +1,18 @@
+package net.changed.world.inventory;
+
+import net.changed.block.TextEnterable;
+import net.changed.init.ChangedMenus;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class NoteMenu extends TextMenu {
+    public NoteMenu(int id, Inventory inventory, BlockPos pos, BlockState state, TextEnterable textMenuBlockEntity) {
+        super(ChangedMenus.NOTE.get(), id, inventory, pos, state, textMenuBlockEntity);
+    }
+
+    public NoteMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
+        super(ChangedMenus.NOTE.get(), id, inventory, extraData, true);
+    }
+}

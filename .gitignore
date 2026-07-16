@@ -1,0 +1,67 @@
+# Gradle
+.gradle/
+build/
+build-port/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDEs and editors
+.idea/
+.run/
+.vscode/
+*.iws
+*.iml
+*.ipr
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.eclipse/
+out/
+bin/
+
+# Minecraft development runtime
+run/
+runs/
+logs/
+crash-reports/
+repo/
+mcmodsrepo/
+codex-logs/
+
+# Generated caches
+**/src/generated/**/.cache/
+
+# Local build and diagnostic output
+*.log
+*.log.*
+*.tmp
+*.bak
+hs_err_pid*
+replay_pid*
+compile-errors.txt
+compile_errors.txt
+compile-raw.log
+runclient*.out.log
+runclient*.err.log
+
+# Local workspace notes and archives
+PORT_STATUS.md
+_workspace_context/
+*.zip
+
+# Secrets and signing material
+.env
+.env.*
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+
+# Operating systems
+.DS_Store
+Thumbs.db
+desktop.ini

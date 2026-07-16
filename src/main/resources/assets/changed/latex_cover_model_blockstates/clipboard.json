@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "bottom": null,
+      "extra": {
+        "model": "changed:bottom_large"
+      }
+    }
+  }
+}

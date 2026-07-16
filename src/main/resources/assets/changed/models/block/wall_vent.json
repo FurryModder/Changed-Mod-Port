@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "changed:block/floor_vent",
+    "up": "changed:block/floor_vent",
+    "north": "changed:block/wall_vent",
+    "east": "changed:block/wall_vent",
+    "south": "changed:block/wall_vent",
+    "west": "changed:block/wall_vent",
+    "particle": "changed:block/floor_vent"
+  }
+}
