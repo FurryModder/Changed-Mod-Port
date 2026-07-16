@@ -1,0 +1,48 @@
+{
+  "variants": {
+    "facing=north,section=bottom_left": { "south": { "model": "changed:generator/south_bottom_left" } },
+    "facing=east,section=bottom_left": { "west": { "model": "changed:generator/south_bottom_left", "y": 90 } },
+    "facing=south,section=bottom_left": { "north": { "model": "changed:generator/south_bottom_left", "y": 180 } },
+    "facing=west,section=bottom_left": { "east": { "model": "changed:generator/south_bottom_left", "y": 270 } },
+
+    "facing=north,section=bottom_middle": { "south": null },
+    "facing=east,section=bottom_middle": { "west": null },
+    "facing=south,section=bottom_middle": { "north": null },
+    "facing=west,section=bottom_middle": { "east": null },
+
+    "facing=north,section=bottom_right": { "south": { "model": "changed:generator/south_middle_right" } },
+    "facing=east,section=bottom_right": { "west": { "model": "changed:generator/south_middle_right", "y": 90 } },
+    "facing=south,section=bottom_right": { "north": { "model": "changed:generator/south_middle_right", "y": 180 } },
+    "facing=west,section=bottom_right": { "east": { "model": "changed:generator/south_middle_right", "y": 270 } },
+
+    "facing=north,section=middle_left": { "south": { "model": "changed:generator/south_middle_left" } },
+    "facing=east,section=middle_left": { "west": { "model": "changed:generator/south_middle_left", "y": 90 } },
+    "facing=south,section=middle_left": { "north": { "model": "changed:generator/south_middle_left", "y": 180 } },
+    "facing=west,section=middle_left": { "east": { "model": "changed:generator/south_middle_left", "y": 270 } },
+
+    "facing=north,section=center": { "south": null },
+    "facing=east,section=center": { "west": null },
+    "facing=south,section=center": { "north": null },
+    "facing=west,section=center": { "east": null },
+
+    "facing=north,section=middle_right": { "south": { "model": "changed:generator/south_middle_right" } },
+    "facing=east,section=middle_right": { "west": { "model": "changed:generator/south_middle_right", "y": 90 } },
+    "facing=south,section=middle_right": { "north": { "model": "changed:generator/south_middle_right", "y": 180 } },
+    "facing=west,section=middle_right": { "east": { "model": "changed:generator/south_middle_right", "y": 270 } },
+
+    "facing=north,section=top_left": { "south": { "model": "changed:generator/south_top_left" } },
+    "facing=east,section=top_left": { "west": { "model": "changed:generator/south_top_left", "y": 90 } },
+    "facing=south,section=top_left": { "north": { "model": "changed:generator/south_top_left", "y": 180 } },
+    "facing=west,section=top_left": { "east": { "model": "changed:generator/south_top_left", "y": 270 } },
+
+    "facing=north,section=top_middle": { "south": { "model": "changed:generator/south_top_middle" } },
+    "facing=east,section=top_middle": { "west": { "model": "changed:generator/south_top_middle", "y": 90 } },
+    "facing=south,section=top_middle": { "north": { "model": "changed:generator/south_top_middle", "y": 180 } },
+    "facing=west,section=top_middle": { "east": { "model": "changed:generator/south_top_middle", "y": 270 } },
+
+    "facing=north,section=top_right": { "south": { "model": "changed:generator/south_top_right" } },
+    "facing=east,section=top_right": { "west": { "model": "changed:generator/south_top_right", "y": 90 } },
+    "facing=south,section=top_right": { "north": { "model": "changed:generator/south_top_right", "y": 180 } },
+    "facing=west,section=top_right": { "east": { "model": "changed:generator/south_top_right", "y": 270 } }
+  }
+}

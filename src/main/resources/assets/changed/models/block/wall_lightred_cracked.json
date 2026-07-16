@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "changed:block/wall_lightred_cracked",
+    "up": "changed:block/wall_lightred_cracked",
+    "north": "changed:block/wall_lightred_cracked",
+    "east": "changed:block/wall_lightred_cracked",
+    "south": "changed:block/wall_lightred_cracked",
+    "west": "changed:block/wall_lightred_cracked",
+    "particle": "changed:block/wall_lightred_cracked"
+  }
+}

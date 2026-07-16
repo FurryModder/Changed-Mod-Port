@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/special/garden/hallway_gray",
+    "loot_table": "changed:chests/orange_tree"
+  },
+  "spawn_weight": 14,
+  "neighboring_zones": [
+    "changed:general"
+  ]
+}

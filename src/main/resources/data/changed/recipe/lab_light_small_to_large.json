@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "changed:lab_light_small"
+    },
+    {
+      "item": "changed:lab_light_small"
+    }
+  ],
+  "result": {
+    "id": "changed:lab_light",
+    "count": 1
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/long/gray/corridor_gray_v2",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:general"
+  ]
+}

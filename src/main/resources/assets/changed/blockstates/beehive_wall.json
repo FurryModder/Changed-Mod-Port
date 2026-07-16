@@ -1,0 +1,18 @@
+{
+  "multipart": [
+    { "when": { "north": "false" }, "apply": { "model": "changed:block/beehive_wall/side_full" } },
+    { "when": { "north": "true" }, "apply": { "model": "changed:block/beehive_wall/side_carved" } },
+    { "when": { "east": "false" }, "apply": { "model": "changed:block/beehive_wall/side_full", "y": 90 } },
+    { "when": { "east": "true" }, "apply": { "model": "changed:block/beehive_wall/side_carved", "y": 90 } },
+    { "when": { "south": "false" }, "apply": { "model": "changed:block/beehive_wall/side_full", "y": 180 } },
+    { "when": { "south": "true" }, "apply": { "model": "changed:block/beehive_wall/side_carved", "y": 180 } },
+    { "when": { "west": "false" }, "apply": { "model": "changed:block/beehive_wall/side_full", "y": 270 } },
+    { "when": { "west": "true" }, "apply": { "model": "changed:block/beehive_wall/side_carved", "y": 270 } },
+
+    { "when": { "up": "false" }, "apply": { "model": "changed:block/beehive_wall/top_full" } },
+    { "when": { "up": "true" }, "apply": { "model": "changed:block/beehive_wall/top_carved" } },
+
+    { "when": { "down": "false" }, "apply": { "model": "changed:block/beehive_wall/bottom_full" } },
+    { "when": { "down": "true" }, "apply": { "model": "changed:block/beehive_wall/bottom_carved" } }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/special/bathroom/bathroom_gray_risk",
+    "loot_table": "changed:chests/high_tier_lab"
+  },
+  "spawn_weight": 10,
+  "neighboring_zones": [
+    "changed:office"
+  ]
+}

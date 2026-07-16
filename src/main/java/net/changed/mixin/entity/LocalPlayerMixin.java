@@ -1,0 +1,216 @@
+package net.changed.mixin.entity;
+
+
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.authlib.GameProfile;
+import net.changed.Changed;
+import net.changed.ability.GrabEntityAbility;
+import net.changed.client.InvertedInput;
+import net.changed.client.LocalPlayerAccessor;
+import net.changed.client.NullInput;
+import net.changed.entity.LivingEntityDataExtension;
+import net.changed.entity.PlayerDataExtension;
+import net.changed.init.ChangedAttributes;
+import net.changed.process.ProcessTransfur;
+import net.changed.util.EntityUtil;
+import net.changed.util.InputWrapper;
+import net.minecraft.client.ClientRecipeBook;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.Input;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.stats.StatsCounter;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.fml.LogicalSide;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@OnlyIn(Dist.CLIENT)
+@Mixin(LocalPlayer.class)
+public abstract class LocalPlayerMixin extends AbstractClientPlayer implements PlayerDataExtension, LivingEntityDataExtension, LocalPlayerAccessor {
+    public LocalPlayerMixin(ClientLevel p_108548_, GameProfile p_108549_) {
+        super(p_108548_, p_108549_);
+    }
+
+    @Shadow public Input input;
+    @Shadow @Final protected Minecraft minecraft;
+    @Shadow private int autoJumpTime;
+    @Shadow @Final public ClientPacketListener connection;
+    @Shadow public abstract boolean isMovingSlowly();
+
+    @Shadow public float yBobO;
+
+    @Shadow public float yBob;
+
+    @Shadow public float xBobO;
+
+    @Shadow public float xBob;
+
+    @Shadow private boolean flashOnSetHealth;
+
+    @Shadow private boolean handsBusy;
+
+    @Override
+    public void setHandsBusy(boolean busy) {
+        this.handsBusy = busy;
+    }
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    public void applyBasicPlayerInfo(Minecraft mc, ClientLevel level, ClientPacketListener packetListener, StatsCounter stats, ClientRecipeBook recipeBook, boolean p_108626_, boolean p_108627_, CallbackInfo ci) {
+        this.setBasicPlayerInfo(Changed.config.client.basicPlayerInfo);
+    }
+
+    @Inject(method = "getWaterVision", at = @At("RETURN"), cancellable = true)
+    private void getWaterVision(CallbackInfoReturnable<Float> callback) {
+        ProcessTransfur.ifPlayerTransfurred(this, variant -> {
+            if (!variant.getParent().getBreatheMode().canBreatheWater())
+                return;
+            if (!this.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value()))
+                return;
+            for (var level : Thread.currentThread().getStackTrace()) {
+                if (level.toString().contains("LightTexture")) // Light texture breaks when returning > 1.0F
+                    return;
+            }
+
+            callback.setReturnValue(callback.getReturnValue() * 4.0F);
+        });
+    }
+
+    @Inject(method = "aiStep", at = @At("HEAD"), cancellable = true)
+    public void aiStep(CallbackInfo ci) {
+        var playerMover = getPlayerMover();
+        if (playerMover != null) {
+            float f = Mth.clamp((float)this.getAttributeValue(Attributes.SNEAKING_SPEED), 0.0F, 1.0F);
+            this.input.tick(this.isMovingSlowly(), f);
+            playerMover.aiStep((LocalPlayer)(Object)this, InputWrapper.from(this), LogicalSide.CLIENT);
+            super.aiStep();
+            ci.cancel();
+            return;
+        }
+
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        if (!player.level().isClientSide) return;
+
+        ProcessTransfur.ifPlayerTransfurred(player, variant -> {
+            if (variant.getEntityShape().isLegless() &&
+                    player.isUnderWater() &&
+                    player.getAttributeValue(NeoForgeMod.SWIM_SPEED) >= 1.1F &&
+                    !player.input.shiftKeyDown) {
+                player.setSprinting(true);
+            }
+        });
+    }
+
+    @WrapOperation(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(ZF)V"))
+    public void adjustCrouchSpeed(Input instance, boolean movingSlowly, float crouchSpeed, Operation<Void> original) {
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        ProcessTransfur.ifPlayerTransfurred(player, variant -> {
+            original.call(instance, movingSlowly, (float)(crouchSpeed * player.getAttributeValue(ChangedAttributes.SNEAK_SPEED)));
+        }, () -> {
+            original.call(instance, movingSlowly, crouchSpeed);
+        });
+    }
+
+    @WrapMethod(method = "canStartSprinting")
+    public boolean denySprintingOnZero(Operation<Boolean> original) {
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        if (ProcessTransfur.isPlayerTransfurred(player) && player.getAttributeValue(ChangedAttributes.SPRINT_SPEED) <= 0.0)
+            return false;
+        return original.call();
+    }
+    
+    @Inject(method = "serverAiStep", at = @At("HEAD"), cancellable = true)
+    public void serverAiStep(CallbackInfo ci) {
+        var playerMover = getPlayerMover();
+        if (playerMover != null) {
+            this.yBobO = this.yBob;
+            this.xBobO = this.xBob;
+            this.xBob += (this.getXRot() - this.xBob) * 0.5F;
+            this.yBob += (this.getYRot() - this.yBob) * 0.5F;
+            playerMover.serverAiStep((LocalPlayer)(Object)this, InputWrapper.from(this), LogicalSide.CLIENT);
+            super.serverAiStep();
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "isAutoJumpEnabled", at = @At("HEAD"), cancellable = true)
+    public void isAutoJumpEnabled(CallbackInfoReturnable<Boolean> callback) {
+        if (getPlayerMover() != null) {
+            callback.setReturnValue(false);
+        }
+    }
+
+    @Inject(method = "isMovingSlowly", at = @At("HEAD"), cancellable = true)
+    public void isMovingSlowly(CallbackInfoReturnable<Boolean> callback) {
+        ProcessTransfur.ifPlayerTransfurred(this, variant -> {
+            if (this.isInWater() || this.isUnderWater() || this.isSwimming() ||
+                    this.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value()))
+                return;
+
+            if (variant.getChangedEntity() != null)
+                callback.setReturnValue(variant.getChangedEntity().isMovingSlowly());
+        });
+    }
+
+    @Unique
+    private Input rootInput = null;
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    public void tick(CallbackInfo callback) {
+        var playerMover = getPlayerMover();
+        if (playerMover != null && playerMover.shouldRemoveMover(this, InputWrapper.from(this), LogicalSide.CLIENT))
+            setPlayerMover(null);
+
+        boolean isNullInput = input instanceof NullInput;
+        boolean isInvertedInput = input instanceof InvertedInput;
+        if (!isNullInput && !isInvertedInput)
+            rootInput = input; // Save root input type
+
+        boolean shouldNullInput = this.getNoControlTicks() > 0 || GrabEntityAbility.isEntityNoControl(this);
+        boolean shouldInvertInput = this.getInvertControlTicks() > 0;
+
+        if (shouldNullInput) {
+            if (!isNullInput)
+                input = new NullInput();
+
+            return;
+        } else if (isNullInput) {
+            input = rootInput;
+        }
+
+        isInvertedInput = input instanceof InvertedInput;
+
+        if (shouldInvertInput) {
+            if (!isInvertedInput) {
+                input = new InvertedInput(input);
+            }
+
+            return;
+        } else if (isInvertedInput) {
+            input = rootInput;
+        }
+    }
+
+    @Inject(method = "hurtTo", at = @At("HEAD"))
+    public void disableFlashOnTf(float health, CallbackInfo ci) {
+        ProcessTransfur.ifPlayerTransfurred(EntityUtil.playerOrNull(this), (player, variant) -> {
+            if (variant.isTransfurring())
+                this.flashOnSetHealth = false;
+        });
+    }
+}

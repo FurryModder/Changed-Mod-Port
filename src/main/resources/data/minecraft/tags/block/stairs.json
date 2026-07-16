@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "changed:tiles_caution_stairs",
+    "changed:tiles_gray_stairs",
+    "changed:tiles_grayblue_bolted_stairs",
+    "changed:tiles_grayblue_stairs",
+    "changed:tiles_library_brown_stairs",
+    "changed:tiles_library_tan_stairs",
+    "changed:tiles_white_stairs",
+    "changed:wall_lightred_stairs",
+    "changed:wall_gray_stairs",
+    "changed:wall_green_stairs",
+    "changed:wall_white_stairs"
+  ]
+}

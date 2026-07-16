@@ -1,0 +1,8 @@
+{
+  "parent": "changed:custom/lab_light_small",
+  "textures": {
+    "all": "changed:block/lab_light_small",
+    "particle": "changed:block/lab_light_small",
+    "0": "changed:block/lab_light_small"
+  }
+}

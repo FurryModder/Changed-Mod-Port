@@ -1,0 +1,11 @@
+{
+  "type": "changed:crafting_container_fill",
+  "ingredients": [
+    {
+      "item": "minecraft:milk_bucket"
+    }
+  ],
+  "container": "changed:mug",
+  "containerCountLimit": 8,
+  "result": "changed:mug_with_milk"
+}

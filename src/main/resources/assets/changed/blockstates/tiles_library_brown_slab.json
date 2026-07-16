@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "changed:block/tiles_library_brown_slab"
+    },
+    "type=double": {
+      "model": "changed:block/tiles_library_brown"
+    },
+    "type=top": {
+      "model": "changed:block/tiles_library_brown_slab_top"
+    }
+  }
+}

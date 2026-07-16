@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:room",
+    "template": "changed:facility/room/gray/gray_office_clean",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 14,
+  "neighboring_zones": [
+    "changed:general"
+  ]
+}

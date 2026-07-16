@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "extended=false": {
+      "bottom": {
+        "model": "changed:bottom_cross_small_recess"
+      }
+    },
+    "extended=true": {
+      "bottom": {
+        "model": "changed:bottom_cross_small"
+      }
+    }
+  }
+}

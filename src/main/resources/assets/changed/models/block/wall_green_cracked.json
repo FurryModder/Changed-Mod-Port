@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "changed:block/wall_green_cracked",
+    "up": "changed:block/wall_green_cracked",
+    "north": "changed:block/wall_green_cracked",
+    "east": "changed:block/wall_green_cracked",
+    "south": "changed:block/wall_green_cracked",
+    "west": "changed:block/wall_green_cracked",
+    "particle": "changed:block/wall_green_cracked"
+  }
+}

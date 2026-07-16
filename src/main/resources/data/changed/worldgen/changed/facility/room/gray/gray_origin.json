@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:room",
+    "template": "changed:facility/room/gray/gray_origin",
+    "loot_table": "changed:chests/decayed_lab_origin"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:general"
+  ]
+}

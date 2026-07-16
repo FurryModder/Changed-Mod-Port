@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "#",
+    "#"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "#": {
+      "item": "minecraft:red_carpet"
+    }
+  },
+  "result": {
+    "id": "changed:red_neck_tie"
+  }
+}

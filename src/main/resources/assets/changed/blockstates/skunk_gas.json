@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=1": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=2": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=3": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=4": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=5": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=6": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=7": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=8": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=9": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=10": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=11": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=12": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=13": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=14": {
+      "model": "changed:block/skunk_gas"
+    },
+    "level=15": {
+      "model": "changed:block/skunk_gas"
+    }
+  }
+}

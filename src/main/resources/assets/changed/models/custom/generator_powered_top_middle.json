@@ -1,0 +1,37 @@
+{
+  "credit": "Made with Blockbench",
+  "texture_size": [96, 96],
+  "textures": {
+    "0": "changed:block/generator_on",
+    "particle": "changed:block/generator_on"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 8],
+      "to": [16, 13, 16],
+      "rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 4]},
+      "faces": {
+        "north": {"uv": [0, 8, 2.66667, 10.16667], "texture": "#0"},
+        "south": {"uv": [2.66667, 8, 5.33333, 10.16667], "texture": "#0"},
+        "up": {"uv": [4, 11.5, 1.33333, 10.16667], "texture": "#0"}
+      }
+    },
+    {
+      "from": [0, 0, 7],
+      "to": [16, 8, 8],
+      "rotation": {"angle": 0, "axis": "y", "origin": [0, -16, -4]},
+      "faces": {
+        "north": {"uv": [8, 10.16667, 10.66667, 11.5], "texture": "#0"},
+        "up": {"uv": [14.33333, 7.33333, 11.66667, 7.16667], "texture": "#0"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "TopMiddle",
+      "origin": [0, 0, 0],
+      "color": 0,
+      "children": [0, 1]
+    }
+  ]
+}

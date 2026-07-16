@@ -1,0 +1,18 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_forest",
+  "spawners": [
+    { "type": "changed:latex_deer", "weight": 10, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_pink_deer", "weight": 5, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_bee", "weight": 8, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_leaf", "weight": 10, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_squirrel", "weight": 8, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_moth", "weight": 4, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_mimic_plant", "weight": 5, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_rabbit_female", "weight": 3, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_rabbit_male", "weight": 3, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_raccoon", "weight": 3, "minCount": 1, "maxCount": 3 },
+
+    { "type": "changed:gas_skunk", "weight": 1, "minCount": 1, "maxCount": 3 }
+  ]
+}

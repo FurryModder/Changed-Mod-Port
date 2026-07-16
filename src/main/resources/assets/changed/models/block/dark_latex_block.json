@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "changed:block/dark_latex_block_bottom",
+    "up": "changed:block/dark_latex_block_top",
+    "north": "changed:block/dark_latex_block_side",
+    "east": "changed:block/dark_latex_block_side",
+    "south": "changed:block/dark_latex_block_side",
+    "west": "changed:block/dark_latex_block_side",
+    "particle": "changed:block/dark_latex_block_top"
+  }
+}

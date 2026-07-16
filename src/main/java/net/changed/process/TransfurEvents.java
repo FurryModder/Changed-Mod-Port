@@ -1,0 +1,866 @@
+package net.changed.process;
+
+import net.changed.ability.IAbstractChangedEntity;
+import net.changed.ability.ILatexAssimilatedEntity;
+import net.changed.entity.ChangedEntity;
+import net.changed.entity.TransfurCause;
+import net.changed.entity.TransfurContext;
+import net.changed.entity.ai.ImmediateTransfurDecision;
+import net.changed.entity.ai.LatexAssimilationDecision;
+import net.changed.entity.ai.NonLatexAssimilationDecision;
+import net.changed.entity.variant.TransfurVariant;
+import net.changed.entity.variant.TransfurVariantInstance;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.function.Consumer;
+
+public abstract class TransfurEvents {
+    /**
+     * Fired whenever a mob becomes assimilated from an unassimilated state.
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class NewlyAssimilatedEntityEvent extends Event implements ICancellableEvent {
+        public final @NotNull ILatexAssimilatedEntity entity;
+
+        public NewlyAssimilatedEntityEvent(@NotNull ILatexAssimilatedEntity entity) {
+            this.entity = entity;
+        }
+
+    }
+
+    /**
+     * Fired whenever an entity becomes transfurred from an untransfurred state.
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class NewlyTransfurredEntityEvent extends Event implements ICancellableEvent {
+        public final @NotNull IAbstractChangedEntity entity;
+
+        public NewlyTransfurredEntityEvent(@NotNull IAbstractChangedEntity entity) {
+            this.entity = entity;
+        }
+
+    }
+
+    /**
+     * Fired whenever two entities fuse into one. Use {@link LatexFusionEvent} to track the original entities.
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class NewlyFusedEntityEvent extends Event implements ICancellableEvent {
+        public final @NotNull IAbstractChangedEntity entity;
+
+        public NewlyFusedEntityEvent(@NotNull IAbstractChangedEntity entity) {
+            this.entity = entity;
+        }
+
+    }
+
+    /**
+     * Fired whenever a latex entity absorbs another entity (2 entities become 1).
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class AbsorbedEntityEvent extends Event implements ICancellableEvent {
+        public final @NotNull IAbstractChangedEntity entity;
+
+        public AbsorbedEntityEvent(@NotNull IAbstractChangedEntity entity) {
+            this.entity = entity;
+        }
+
+    }
+
+    /**
+     * Fired whenever a latex entity assimilates another entity (replicate themselves, assimilated a mob).
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class AssimilatedEntityEvent extends Event implements ICancellableEvent {
+        public final @NotNull IAbstractChangedEntity entity;
+
+        public AssimilatedEntityEvent(@NotNull IAbstractChangedEntity entity) {
+            this.entity = entity;
+        }
+
+    }
+
+    /**
+     * Fired any time a player is about to be untransfurred.
+     * Canceling this event will cause the player to remain as their current variant.
+     * Setting the next variant will cause the player to change into that variant if the event is not canceled.
+     * This event class is abstract so that addon mods MUST provide a cause of the untransfur event.
+     */
+    public static abstract class UntransfurPlayerEvent extends Event implements ICancellableEvent {
+        public final @NotNull Player player;
+        public final @NotNull TransfurVariantInstance<?> variantInstance;
+        public final @Nullable TransfurVariant<?> originalNextVariant;
+        protected @Nullable TransfurVariant<?> nextVariant;
+
+        public UntransfurPlayerEvent(@NotNull Player player, @NotNull TransfurVariantInstance<?> variantInstance, @Nullable TransfurVariant<?> originalNextVariant) {
+            this.player = player;
+            this.variantInstance = variantInstance;
+            this.originalNextVariant = originalNextVariant;
+            this.nextVariant = originalNextVariant;
+        }
+
+        public @NotNull Player getPlayer() {
+            return player;
+        }
+
+        public @NotNull TransfurVariantInstance<?> getVariantInstance() {
+            return variantInstance;
+        }
+
+        public @Nullable TransfurVariant<?> getOriginalNextVariant() {
+            return originalNextVariant;
+        }
+
+        public @Nullable TransfurVariant<?> getNextVariant() {
+            return nextVariant;
+        }
+
+        public void setNextVariant(@Nullable TransfurVariant<?> nextVariant) {
+            this.nextVariant = nextVariant;
+        }
+
+        /// Allows the event to specify how its results should be handled if the event isn't canceled.
+        protected void finalizeEvent() {
+            if (nextVariant == null) {
+                ProcessTransfur.removePlayerTransfurVariant(player);
+                ProcessTransfur.setPlayerTransfurProgress(player, 0.0f);
+            } else {
+                IAbstractChangedEntity.forPlayerWithVariant(player, variantInstance).replaceVariant(nextVariant);
+            }
+        }
+    }
+
+    /**
+     * Fired any time a player is about to be untransfurred due to a command.
+     * Canceling this event will cause the player to remain as their current variant.
+     * Setting the next variant will cause the player to change into that variant if the event is not canceled.
+     */
+    public static class UntransfurPlayerByCommandEvent extends UntransfurPlayerEvent {
+        public final @NotNull CommandSourceStack source;
+
+        public UntransfurPlayerByCommandEvent(@NotNull CommandSourceStack source, @NotNull Player player, @NotNull TransfurVariantInstance<?> variantInstance, @Nullable TransfurVariant<?> originalNextVariant) {
+            super(player, variantInstance, originalNextVariant);
+            this.source = source;
+        }
+
+        public @NotNull CommandSourceStack getSource() {
+            return source;
+        }
+    }
+
+    /**
+     * Fired any time a player is about to be untransfurred due to an entity.
+     * Canceling this event will cause the player to remain as their current variant.
+     * Setting the next variant will cause the player to change into that variant if the event is not canceled.
+     * This event is not used in the base mod. Addon mods must provide the entity that caused the player to untransfur.
+     */
+    public static class UntransfurPlayerByEntityEvent extends UntransfurPlayerEvent {
+        public final @NotNull Entity sourceEntity;
+
+        public UntransfurPlayerByEntityEvent(@NotNull Entity sourceEntity, @NotNull Player player, @NotNull TransfurVariantInstance<?> variantInstance, @Nullable TransfurVariant<?> originalNextVariant) {
+            super(player, variantInstance, originalNextVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        public @NotNull Entity getSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired any time a player is about to be untransfurred due to an entity using an item.
+     * Canceling this event will cause the player to remain as their current variant.
+     * Setting the next variant will cause the player to change into that variant if the event is not canceled.
+     * This event is not used in the base mod. Addon mods must provide the entity and the item that caused the player to untransfur.
+     */
+    public static class UntransfurPlayerByItemEvent extends UntransfurPlayerByEntityEvent {
+        public final @NotNull ItemStack usedItem;
+
+        public UntransfurPlayerByItemEvent(@NotNull Entity sourceEntity, @NotNull ItemStack usedItem, @NotNull Player player, @NotNull TransfurVariantInstance<?> variantInstance, @Nullable TransfurVariant<?> originalNextVariant) {
+            super(sourceEntity, player, variantInstance, originalNextVariant);
+            this.usedItem = usedItem;
+        }
+
+        public @NotNull ItemStack getUsedItem() {
+            return usedItem;
+        }
+    }
+
+    /**
+     * Fired any time a player is about to be untransfurred due to a block.
+     * Canceling this event will cause the player to remain as their current variant.
+     * Setting the next variant will cause the player to change into that variant if the event is not canceled.
+     * This event is not used in the base mod. Addon mods must provide the block that caused the player to untransfur.
+     */
+    public static class UntransfurPlayerByBlockEvent extends UntransfurPlayerEvent {
+        public final @NotNull BlockState blockState;
+        public final @NotNull BlockPos blockPosition;
+
+        public UntransfurPlayerByBlockEvent(@NotNull BlockState blockState, @NotNull BlockPos blockPosition, @NotNull Player player, @NotNull TransfurVariantInstance<?> variantInstance, @Nullable TransfurVariant<?> originalNextVariant) {
+            super(player, variantInstance, originalNextVariant);
+            this.blockState = blockState;
+            this.blockPosition = blockPosition;
+        }
+
+        public @NotNull BlockState getBlockState() {
+            return blockState;
+        }
+
+        public @NotNull BlockPos getBlockPosition() {
+            return blockPosition;
+        }
+    }
+
+    /**
+     * Utility function that calls the UntransfurPlayerEvent.finalizeEvent().
+     * This function is intended to be called after the event has been posted and all event listeners have processed it.
+     * @param event event that had finished being handled by event listeners and was not canceled.
+     */
+    public static void finalizeUntransfurPlayerEvent(@NotNull UntransfurPlayerEvent event) {
+        event.finalizeEvent();
+    }
+
+    /**
+     * Fired every tick for untransfurred players to compute transfur progression or regression.
+     * Canceling this event will cause the player's transfur progress to remain unchanged.
+     * Setting delta progress to a negative value will regress the transfur, while a positive value will progress it.
+     */
+    public static class TickPlayerTransfurProgressEvent extends Event implements ICancellableEvent {
+        public final @NotNull Player player;
+        public final float currentProgress;
+        public final float originalDeltaProgress;
+        protected float deltaProgress;
+
+        public TickPlayerTransfurProgressEvent(@NotNull Player player, float currentProgress, float originalDeltaProgress) {
+            this.player = player;
+            this.currentProgress = currentProgress;
+            this.originalDeltaProgress = originalDeltaProgress;
+            this.deltaProgress = originalDeltaProgress;
+        }
+
+        public @NotNull Player getPlayer() {
+            return player;
+        }
+
+        public float getCurrentProgress() {
+            return currentProgress;
+        }
+
+        public float getOriginalDeltaProgress() {
+            return originalDeltaProgress;
+        }
+
+        public void setDeltaProgress(float deltaProgress) {
+            this.deltaProgress = deltaProgress;
+        }
+
+        public float getDeltaProgress() {
+            return deltaProgress;
+        }
+
+    }
+
+    /**
+     * Fired any time an entity is computing an assimilation/transfur decision.
+     * Canceling this event will deny the assimilation/transfur decision.
+     * Write an event listener for {@link LatexAssimilationDecisionEvent}, {@link NonLatexAssimilationDecisionEvent}, or {@link ImmediateTransfurDecisionEvent}
+     * if you need precise control over decision-making.
+     */
+    public static abstract class AssimilationDecisionEvent extends Event implements ICancellableEvent {
+        public final @NotNull LivingEntity entity;
+
+        public AssimilationDecisionEvent(@NotNull LivingEntity entity) {
+            this.entity = entity;
+        }
+
+        public @NotNull LivingEntity getEntity() {
+            return entity;
+        }
+
+        public abstract @NotNull TransfurVariant<?> getTransfurVariant();
+        public abstract void setTransfurVariant(@NotNull TransfurVariant<?> transfurVariant);
+        public abstract void appendTransfurListener(Consumer<IAbstractChangedEntity> listener);
+        public abstract @NotNull TransfurCause getTransfurCause();
+        public abstract @Nullable LivingEntity getSourceEntity();
+
+    }
+
+    /**
+     * Fired after a latex assimilating source made its decision to assimilate,
+     * and before the target entity handles the decision.
+     * Canceling this event will deny the assimilation decision.
+     */
+    public static class LatexAssimilationDecisionEvent extends AssimilationDecisionEvent {
+        public final @NotNull LatexAssimilationDecision<?> originalDecision;
+        protected @NotNull LatexAssimilationDecision<?> decision;
+
+        public LatexAssimilationDecisionEvent(@NotNull LivingEntity entity, @NotNull LatexAssimilationDecision<?> originalDecision) {
+            super(entity);
+            this.originalDecision = originalDecision;
+            this.decision = originalDecision;
+        }
+
+        @Override
+        public @NotNull TransfurVariant<?> getTransfurVariant() {
+            return decision.transfurVariant();
+        }
+
+        @Override
+        public void setTransfurVariant(@NotNull TransfurVariant<?> transfurVariant) {
+            decision = decision.withTransfurVariant(transfurVariant);
+        }
+
+        @Override
+        public void appendTransfurListener(Consumer<IAbstractChangedEntity> listener) {
+            decision = decision.appendTransfurListener(listener);
+        }
+
+        @Override
+        public @NotNull TransfurCause getTransfurCause() {
+            return decision.context().cause();
+        }
+
+        @Override
+        public @Nullable LivingEntity getSourceEntity() {
+            return decision.context().source() == null ? null :
+                    decision.context().source().map(IAbstractChangedEntity::getEntity, ILatexAssimilatedEntity::getEntity);
+        }
+
+        public @NotNull LatexAssimilationDecision<?> getOriginalDecision() {
+            return originalDecision;
+        }
+
+        public @NotNull LatexAssimilationDecision<?> getDecision() {
+            return decision;
+        }
+
+        public void setDecision(@NotNull LatexAssimilationDecision<?> decision) {
+            Objects.requireNonNull(decision);
+            this.decision = decision;
+        }
+    }
+
+    /**
+     * Fired after a non-latex assimilating source made its decision to assimilate,
+     * and before the target entity handles the decision.
+     * Canceling this event will deny the assimilation decision.
+     */
+    public static class NonLatexAssimilationDecisionEvent extends AssimilationDecisionEvent {
+        public final @NotNull NonLatexAssimilationDecision<?> originalDecision;
+        protected @NotNull NonLatexAssimilationDecision<?> decision;
+
+        public NonLatexAssimilationDecisionEvent(@NotNull LivingEntity entity, @NotNull NonLatexAssimilationDecision<?> originalDecision) {
+            super(entity);
+            this.originalDecision = originalDecision;
+            this.decision = originalDecision;
+        }
+
+        @Override
+        public @NotNull TransfurVariant<?> getTransfurVariant() {
+            return decision.transfurVariant();
+        }
+
+        @Override
+        public void setTransfurVariant(@NotNull TransfurVariant<?> transfurVariant) {
+            decision = decision.withTransfurVariant(transfurVariant);
+        }
+
+        @Override
+        public void appendTransfurListener(Consumer<IAbstractChangedEntity> listener) {
+            decision = decision.appendTransfurListener(listener);
+        }
+
+        @Override
+        public @NotNull TransfurCause getTransfurCause() {
+            return decision.cause();
+        }
+
+        @Override
+        public @Nullable LivingEntity getSourceEntity() {
+            return decision.source() == null ? null :
+                    decision.source().getEntity();
+        }
+
+        public @NotNull NonLatexAssimilationDecision<?> getOriginalDecision() {
+            return originalDecision;
+        }
+
+        public @NotNull NonLatexAssimilationDecision<?> getDecision() {
+            return decision;
+        }
+
+        public void setDecision(@NotNull NonLatexAssimilationDecision<?> decision) {
+            Objects.requireNonNull(decision);
+            this.decision = decision;
+        }
+    }
+
+    /**
+     * Fired after a transfurring source made its decision to transfur,
+     * and before the target entity handles the decision.
+     * Canceling this event will deny the transfur decision.
+     */
+    public static class ImmediateTransfurDecisionEvent extends AssimilationDecisionEvent {
+        public final @NotNull ImmediateTransfurDecision<?> originalDecision;
+        protected @NotNull ImmediateTransfurDecision<?> decision;
+
+        public ImmediateTransfurDecisionEvent(@NotNull LivingEntity entity, @NotNull ImmediateTransfurDecision<?> originalDecision) {
+            super(entity);
+            this.originalDecision = originalDecision;
+            this.decision = originalDecision;
+        }
+
+        @Override
+        public @NotNull TransfurVariant<?> getTransfurVariant() {
+            return decision.transfurVariant();
+        }
+
+        @Override
+        public void setTransfurVariant(@NotNull TransfurVariant<?> transfurVariant) {
+            decision = decision.withTransfurVariant(transfurVariant);
+        }
+
+        @Override
+        public void appendTransfurListener(Consumer<IAbstractChangedEntity> listener) {
+            decision = decision.appendTransfurListener(listener);
+        }
+
+        @Override
+        public @NotNull TransfurCause getTransfurCause() {
+            return decision.cause();
+        }
+
+        @Override
+        public @Nullable LivingEntity getSourceEntity() {
+            return decision.source() == null ? null :
+                    decision.source().getEntity();
+        }
+
+        public @NotNull ImmediateTransfurDecision<?> getOriginalDecision() {
+            return originalDecision;
+        }
+
+        public @NotNull ImmediateTransfurDecision<?> getDecision() {
+            return decision;
+        }
+
+        public void setDecision(@NotNull ImmediateTransfurDecision<?> decision) {
+            Objects.requireNonNull(decision);
+            this.decision = decision;
+        }
+    }
+
+    /**
+     * Fired before a TransfurVariantInstance is assigned to a player.
+     */
+    public static class PreProcessTransfurVariantInstanceEvent extends Event {
+        public final @NotNull Player player;
+        public final @NotNull TransfurVariant<?> transfurVariant;
+        public final @Nullable TransfurContext transfurContext;
+        public final @NotNull TransfurVariantInstance<?> transfurVariantInstance;
+        public final float transfurProgress;
+        public final boolean temporaryFromSuit;
+
+        public PreProcessTransfurVariantInstanceEvent(@NotNull Player player, @NotNull TransfurVariant<?> variant, @Nullable TransfurContext context, @NotNull TransfurVariantInstance<?> instance, float progress, boolean temporaryFromSuit) {
+            this.player = player;
+            this.transfurVariant = variant;
+            this.transfurContext = context;
+            this.transfurVariantInstance = instance;
+            this.transfurProgress = progress;
+            this.temporaryFromSuit = temporaryFromSuit;
+        }
+
+        public @NotNull Player getPlayer() {
+            return player;
+        }
+
+        public @NotNull TransfurVariant<?> getTransfurVariant() {
+            return transfurVariant;
+        }
+
+        public @Nullable TransfurContext getTransfurContext() {
+            return transfurContext;
+        }
+
+        public @NotNull TransfurVariantInstance<?> getTransfurVariantInstance() {
+            return transfurVariantInstance;
+        }
+
+        public float getTransfurProgress() {
+            return transfurProgress;
+        }
+
+        public boolean isTemporaryFromSuit() {
+            return temporaryFromSuit;
+        }
+
+    }
+
+    /**
+     * Fired whenever a transfur process replaces a living entity with a changed entity.
+     */
+    public static class ReplaceEntityEvent extends Event {
+        public final @NotNull LivingEntity entityToReplace;
+        public final @NotNull TransfurVariant<?> transfurVariant;
+        public final @Nullable LivingEntity originalCauseOfReplacement;
+        protected @Nullable LivingEntity causeOfReplacement;
+        public final @NotNull ChangedEntity replacementEntity;
+
+        public ReplaceEntityEvent(@NotNull LivingEntity entityToReplace, @NotNull TransfurVariant<?> transfurVariant, @Nullable LivingEntity originalCauseOfReplacement, @NotNull ChangedEntity replacementEntity) {
+            this.entityToReplace = entityToReplace;
+            this.transfurVariant = transfurVariant;
+            this.originalCauseOfReplacement = originalCauseOfReplacement;
+            this.causeOfReplacement = originalCauseOfReplacement;
+            this.replacementEntity = replacementEntity;
+        }
+
+        public @NotNull LivingEntity getEntityToReplace() {
+            return entityToReplace;
+        }
+
+        public @NotNull TransfurVariant<?> getTransfurVariant() {
+            return transfurVariant;
+        }
+
+        public @Nullable LivingEntity getOriginalCauseOfReplacement() {
+            return originalCauseOfReplacement;
+        }
+
+        public @Nullable LivingEntity getCauseOfReplacement() {
+            return causeOfReplacement;
+        }
+
+        public void setCauseOfReplacement(@Nullable LivingEntity causeOfReplacement) {
+            this.causeOfReplacement = causeOfReplacement;
+        }
+
+        public @NotNull ChangedEntity getReplacementEntity() {
+            return replacementEntity;
+        }
+
+    }
+
+    /**
+     * Fired after a latex fusion variant has been decided. Use this event to change the variant the entity fuses into.
+     * Canceling this event will deny the fusion decision.
+     */
+    public static abstract class LatexFusionDecisionEvent extends Event implements ICancellableEvent {
+        public final @NotNull TransfurVariant<?> originalFusionVariant;
+        protected @NotNull TransfurVariant<?> fusionVariant;
+
+        protected LatexFusionDecisionEvent(@NotNull TransfurVariant<?> originalFusionVariant) {
+            this.originalFusionVariant = originalFusionVariant;
+            this.fusionVariant = originalFusionVariant;
+        }
+
+        public abstract @NotNull LivingEntity getSourceEntity();
+        public abstract @NotNull LivingEntity getTargetEntity();
+
+        public @NotNull TransfurVariant<?> getOriginalFusionVariant() {
+            return originalFusionVariant;
+        }
+
+        public @NotNull TransfurVariant<?> getFusionVariant() {
+            return fusionVariant;
+        }
+
+        public void setFusionVariant(@NotNull TransfurVariant<?> fusionVariant) {
+            this.fusionVariant = fusionVariant;
+        }
+
+    }
+
+    /**
+     * Fired after a latex fusion has been decided for a ChangedEntity/Transfurred player.
+     * Canceling this event will deny the fusion decision.
+     */
+    public static abstract class LatexFusionWithChangedEntityDecisionEvent extends LatexFusionDecisionEvent {
+        public final @NotNull IAbstractChangedEntity targetEntity;
+
+        protected LatexFusionWithChangedEntityDecisionEvent(@NotNull IAbstractChangedEntity targetEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(fusionVariant);
+            this.targetEntity = targetEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getTargetEntity() {
+            return targetEntity.getEntity();
+        }
+
+        public @NotNull IAbstractChangedEntity getAbstractedTargetEntity() {
+            return targetEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex fusion has been decided for a mob.
+     * Canceling this event will deny the fusion decision.
+     */
+    public static abstract class LatexFusionWithMobDecisionEvent extends LatexFusionDecisionEvent {
+        public final @NotNull LivingEntity targetEntity;
+
+        protected LatexFusionWithMobDecisionEvent(@NotNull LivingEntity targetEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(fusionVariant);
+            this.targetEntity = targetEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getTargetEntity() {
+            return targetEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex fusion variant has been decided from a ChangedEntity.
+     * Canceling this event will deny the fusion decision.
+     */
+    public static class ChangedEntityFusionWithChangedEntityDecisionEvent extends LatexFusionWithChangedEntityDecisionEvent {
+        public final @NotNull IAbstractChangedEntity sourceEntity;
+
+        public ChangedEntityFusionWithChangedEntityDecisionEvent(@NotNull IAbstractChangedEntity sourceEntity, @NotNull IAbstractChangedEntity targetEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull IAbstractChangedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex fusion variant has been decided from an assimilated mob.
+     * Canceling this event will deny the fusion decision.
+     */
+    public static class AssimilatedEntityFusionWithChangedEntityDecisionEvent extends LatexFusionWithChangedEntityDecisionEvent {
+        public final @NotNull ILatexAssimilatedEntity sourceEntity;
+
+        public AssimilatedEntityFusionWithChangedEntityDecisionEvent(@NotNull ILatexAssimilatedEntity sourceEntity, @NotNull IAbstractChangedEntity targetEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull ILatexAssimilatedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex fusion variant has been decided from a ChangedEntity.
+     * Canceling this event will deny the fusion decision.
+     */
+    public static class ChangedEntityFusionWithMobDecisionEvent extends LatexFusionWithMobDecisionEvent {
+        public final @NotNull IAbstractChangedEntity sourceEntity;
+
+        public ChangedEntityFusionWithMobDecisionEvent(@NotNull IAbstractChangedEntity sourceEntity, @NotNull LivingEntity targetEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull IAbstractChangedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex fusion variant has been decided from an assimilated mob.
+     * Canceling this event will deny the fusion decision.
+     */
+    public static class AssimilatedEntityFusionWithMobDecisionEvent extends LatexFusionWithMobDecisionEvent {
+        public final @NotNull ILatexAssimilatedEntity sourceEntity;
+
+        public AssimilatedEntityFusionWithMobDecisionEvent(@NotNull ILatexAssimilatedEntity sourceEntity, @NotNull LivingEntity targetEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull ILatexAssimilatedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired whenever a latex entity fuses with another latex entity.
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static abstract class LatexFusionEvent extends Event implements ICancellableEvent {
+        public final @NotNull IAbstractChangedEntity fusionEntity;
+        public final @NotNull TransfurVariant<?> fusionVariant;
+
+        protected LatexFusionEvent(@NotNull IAbstractChangedEntity fusionEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            this.fusionEntity = fusionEntity;
+            this.fusionVariant = fusionVariant;
+        }
+
+        public abstract @NotNull LivingEntity getSourceEntity();
+        public abstract @NotNull LivingEntity getTargetEntity();
+
+        public @NotNull IAbstractChangedEntity getFusionEntity() {
+            return fusionEntity;
+        }
+
+        public @NotNull TransfurVariant<?> getFusionVariant() {
+            return fusionVariant;
+        }
+
+    }
+
+    /**
+     * Fired after a latex fusion has been decided for a ChangedEntity/Transfurred player.
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static abstract class LatexFusionWithChangedEntityEvent extends LatexFusionEvent {
+        public final @NotNull IAbstractChangedEntity targetEntity;
+
+        protected LatexFusionWithChangedEntityEvent(@NotNull IAbstractChangedEntity targetEntity, @NotNull IAbstractChangedEntity fusionEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(fusionEntity, fusionVariant);
+            this.targetEntity = targetEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getTargetEntity() {
+            return targetEntity.getEntity();
+        }
+
+        public @NotNull IAbstractChangedEntity getAbstractedTargetEntity() {
+            return targetEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex fusion has been decided for a mob.
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static abstract class LatexFusionWithMobEvent extends LatexFusionEvent {
+        public final @NotNull LivingEntity targetEntity;
+
+        protected LatexFusionWithMobEvent(@NotNull LivingEntity targetEntity, @NotNull IAbstractChangedEntity fusionEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(fusionEntity, fusionVariant);
+            this.targetEntity = targetEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getTargetEntity() {
+            return targetEntity;
+        }
+    }
+
+    /**
+     * Fired after a ChangedEntity/Transfurred player fused with another ChangedEntity/Transfurred player
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class ChangedEntityFusionWithChangedEntityEvent extends LatexFusionWithChangedEntityEvent {
+        public final @NotNull IAbstractChangedEntity sourceEntity;
+
+        public ChangedEntityFusionWithChangedEntityEvent(@NotNull IAbstractChangedEntity sourceEntity, @NotNull IAbstractChangedEntity targetEntity, @NotNull IAbstractChangedEntity fusionEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull IAbstractChangedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex assimilated mob fused with a ChangedEntity/Transfurred player
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class AssimilatedEntityFusionWithChangedEntityEvent extends LatexFusionWithChangedEntityEvent {
+        public final @NotNull ILatexAssimilatedEntity sourceEntity;
+
+        public AssimilatedEntityFusionWithChangedEntityEvent(@NotNull ILatexAssimilatedEntity sourceEntity, @NotNull IAbstractChangedEntity targetEntity, @NotNull IAbstractChangedEntity fusionEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull ILatexAssimilatedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired after a ChangedEntity/Transfurred player fused with a mob
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class ChangedEntityFusionWithMobEvent extends LatexFusionWithMobEvent {
+        public final @NotNull IAbstractChangedEntity sourceEntity;
+
+        public ChangedEntityFusionWithMobEvent(@NotNull IAbstractChangedEntity sourceEntity, @NotNull LivingEntity targetEntity, @NotNull IAbstractChangedEntity fusionEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull IAbstractChangedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+
+    /**
+     * Fired after a latex assimilated mob fused with another mob
+     * Canceling this event will prevent the entity from receiving the default buffs.
+     */
+    public static class AssimilatedEntityFusionWithMobEvent extends LatexFusionWithMobEvent {
+        public final @NotNull ILatexAssimilatedEntity sourceEntity;
+
+        public AssimilatedEntityFusionWithMobEvent(@NotNull ILatexAssimilatedEntity sourceEntity, @NotNull LivingEntity targetEntity, @NotNull IAbstractChangedEntity fusionEntity, @NotNull TransfurVariant<?> fusionVariant) {
+            super(targetEntity, fusionEntity, fusionVariant);
+            this.sourceEntity = sourceEntity;
+        }
+
+        @Override
+        public @NotNull LivingEntity getSourceEntity() {
+            return sourceEntity.getEntity();
+        }
+
+        public @NotNull ILatexAssimilatedEntity getAbstractedSourceEntity() {
+            return sourceEntity;
+        }
+    }
+}

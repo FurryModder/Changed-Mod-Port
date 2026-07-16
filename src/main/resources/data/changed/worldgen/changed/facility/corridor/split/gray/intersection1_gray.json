@@ -1,0 +1,12 @@
+{
+  "piece": {
+    "type": "changed:split",
+    "template": "changed:facility/corridor/split/gray/intersection1_gray",
+    "loot_table": "changed:chests/low_tier_lab",
+    "expected_dependents": 3
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:general"
+  ]
+}

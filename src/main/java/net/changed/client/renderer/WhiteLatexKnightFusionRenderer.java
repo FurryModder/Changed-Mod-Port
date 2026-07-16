@@ -1,0 +1,32 @@
+package net.changed.client.renderer;
+
+import net.changed.Changed;
+import net.changed.client.renderer.layers.*;
+import net.changed.client.renderer.model.WhiteLatexKnightFusionModel;
+import net.changed.client.renderer.model.armor.ArmorLatexMaleWolfModel;
+import net.changed.entity.beast.WhiteLatexKnightFusion;
+import net.changed.util.Color3;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
+
+public class WhiteLatexKnightFusionRenderer extends AdvancedHumanoidRenderer<WhiteLatexKnightFusion, WhiteLatexKnightFusionModel> {
+    public static final ResourceLocation DEFAULT_SKIN_LOCATION = Changed.modResource("textures/white_latex_knight_fusion.png");
+
+    public WhiteLatexKnightFusionRenderer(EntityRendererProvider.Context context) {
+        super(context, new WhiteLatexKnightFusionModel(context.bakeLayer(WhiteLatexKnightFusionModel.LAYER_LOCATION)), ArmorLatexMaleWolfModel.MODEL_SET, 0.5f);
+        this.addLayer(new LatexParticlesLayer<>(this, getModel()));
+        this.addLayer(TransfurCapeLayer.normalCape(this, context.getModelSet()));
+        this.addLayer(CustomEyesLayer.builder(this, context.getModelSet())
+                .withSclera(Color3.fromInt(0x000000)).build());
+        this.addLayer(AdditionalEyesLayer.builder(this, context.getModelSet())
+                .withSclera(Color3.fromInt(0x000000))
+                .withIris(Color3.fromInt(0xdfdfdf))
+                .build(Changed.modResource("white_latex_knight_fusion")));
+        this.addLayer(GasMaskLayer.forSnouted(this, context.getModelSet()));
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(WhiteLatexKnightFusion entity) {
+        return DEFAULT_SKIN_LOCATION;
+    }
+}

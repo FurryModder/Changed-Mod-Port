@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "": {
+      "top": null,
+      "north": {
+        "model": "changed:north_1px_down"
+      },
+      "south": {
+        "model": "changed:south_1px_down"
+      },
+      "east": {
+        "model": "changed:east_1px_down"
+      },
+      "west": {
+        "model": "changed:west_1px_down"
+      },
+      "extra": {
+        "model": "changed:lab_light/extra"
+      }
+    }
+  }
+}

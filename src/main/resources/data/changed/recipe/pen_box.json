@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "C": {
+      "item": "changed:cardboard_box_small"
+    },
+    "D": {
+      "tag": "c:dyes"
+    }
+  },
+  "pattern": [
+    "###",
+    "#D#",
+    "#C#"
+  ],
+  "result": {
+    "id": "changed:pen_box"
+  },
+  "show_notification": true
+}

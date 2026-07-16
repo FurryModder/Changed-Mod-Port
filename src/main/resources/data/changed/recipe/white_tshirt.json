@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:white_dye"
+    },
+    {
+      "item": "minecraft:leather_chestplate"
+    },
+    {
+      "item": "changed:latex_base"
+    }
+  ],
+  "result": {
+    "id": "changed:white_tshirt"
+  }
+}

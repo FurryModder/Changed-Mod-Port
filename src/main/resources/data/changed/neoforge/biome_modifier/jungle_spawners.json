@@ -1,0 +1,9 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_jungle",
+  "spawners": [
+    { "type": "changed:latex_red_panda", "weight": 10, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_watermelon_cat", "weight": 3, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_mimic_plant", "weight": 7, "minCount": 1, "maxCount": 3 }
+  ]
+}

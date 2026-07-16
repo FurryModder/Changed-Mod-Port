@@ -1,0 +1,9 @@
+{
+  "render_type": "minecraft:cutout",
+  "parent": "changed:custom/clipboard",
+  "textures": {
+    "all": "changed:block/clipboard",
+    "particle": "changed:block/clipboard",
+    "0": "changed:block/clipboard"
+  }
+}

@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "tag":  "changed:crafting_grayblue_block"
+                   },
+    "result":  {
+                   "id":  "changed:tiles_grayblue_bolted_connected",
+                   "count":  1
+               }
+}

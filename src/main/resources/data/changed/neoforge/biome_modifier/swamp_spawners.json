@@ -1,0 +1,7 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_swamp",
+  "spawners": [
+    { "type": "changed:latex_crocodile", "weight": 10, "minCount": 1, "maxCount": 3 }
+  ]
+}

@@ -1,0 +1,43 @@
+package net.changed.client.renderer;
+
+import net.changed.Changed;
+import net.changed.client.renderer.layers.CustomEyesLayer;
+import net.changed.client.renderer.layers.LatexParticlesLayer;
+import net.changed.client.renderer.model.DarkLatexWolfPupModel;
+import net.changed.client.renderer.model.armor.ArmorNoneModel;
+import net.changed.entity.beast.DarkLatexWolfPup;
+import net.changed.util.Color3;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Pose;
+import org.jetbrains.annotations.NotNull;
+
+public class DarkLatexWolfPupRenderer extends AdvancedHumanoidRenderer<DarkLatexWolfPup, DarkLatexWolfPupModel> {
+	public static final ResourceLocation PUDDLE_SKIN_LOCATION = Changed.modResource("textures/dark_latex_pup_puddle.png");
+	public static final ResourceLocation DEFAULT_SKIN_LOCATION = Changed.modResource("textures/dark_latex_wolf_pup.png");
+
+	public DarkLatexWolfPupRenderer(EntityRendererProvider.Context context) {
+		super(context, new DarkLatexWolfPupModel(context.bakeLayer(DarkLatexWolfPupModel.LAYER_LOCATION)), ArmorNoneModel.MODEL_SET, 0.4F);
+		this.addLayer(new LatexParticlesLayer<>(this, getModel(), model::isPartNotMask));
+		this.addLayer(CustomEyesLayer.builder(this, context.getModelSet())
+				.withSclera(Color3.fromInt(0x242424))
+				.withIris(CustomEyesLayer.fixedIfNotDarkLatexOverrideLeft(Color3.WHITE),
+						CustomEyesLayer.fixedIfNotDarkLatexOverrideRight(Color3.WHITE))
+				.build().setHeadShape(CustomEyesLayer.HeadShape.PUP_CONCAVE));
+	}
+
+	@Override
+	public ResourceLocation getTextureLocation(DarkLatexWolfPup entity) {
+		return entity.isPuddle() ? PUDDLE_SKIN_LOCATION : DEFAULT_SKIN_LOCATION;
+	}
+
+	@Override
+	protected float getFlipDegrees(DarkLatexWolfPup entity) {
+		return entity.getPose() == Pose.SLEEPING ? 0.0F : super.getFlipDegrees(entity);
+	}
+
+	@Override
+	protected boolean isEntityUprightType(@NotNull DarkLatexWolfPup entity) {
+		return false;
+	}
+}

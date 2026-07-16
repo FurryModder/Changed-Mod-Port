@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "changed:tiles_white"
+    }
+  },
+  "result": {
+    "id": "changed:tiles_white_stairs",
+    "count": 4
+  }
+}

@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "tag":  "changed:crafting_gray_block"
+                   },
+    "result":  {
+                   "id":  "changed:wall_gray_striped",
+                   "count":  1
+               }
+}

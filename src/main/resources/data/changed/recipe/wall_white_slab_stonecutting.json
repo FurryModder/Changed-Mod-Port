@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "item":  "changed:wall_white"
+                   },
+    "result":  {
+                   "id":  "changed:wall_white_slab",
+                   "count":  2
+               }
+}

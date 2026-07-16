@@ -1,0 +1,22 @@
+package net.changed.client;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+
+import java.util.function.Function;
+
+public interface PoseStackExtender {
+    /**
+     * Calls consumer with the second to last pose. The pose given to consumer is a copy, and does not affect the poseStack
+     * @param consumer
+     */
+    <T> T popAndRepush(Function<PoseStack.Pose, T> consumer);
+
+    PoseStack.Pose first();
+
+    void setPose(PoseStack.Pose pose);
+    void setPose(Matrix4f pose, Matrix3f normal);
+
+    PoseStack.Pose copyLast();
+}

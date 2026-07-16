@@ -1,0 +1,13 @@
+{
+  "type": "changed:infuser",
+  "ingredients": [
+    {
+      "item": "changed:latex_base"
+    },
+    {
+      "item": "changed:wolf_gas_canister"
+    }
+  ],
+  "gendered": true,
+  "form": "changed:form_gas_wolf"
+}

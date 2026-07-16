@@ -1,0 +1,14 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_mountain",
+  "spawners": [
+    { "type": "changed:latex_blue_wolf", "weight": 7, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_pink_wyvern", "weight": 6, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_pink_yuin_dragon", "weight": 1, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_yuin", "weight": 10, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:dark_latex_yufeng", "weight": 2, "minCount": 1, "maxCount": 1 },
+    { "type": "changed:dark_latex_double_yufeng", "weight": 1, "minCount": 1, "maxCount": 1 },
+
+    { "type": "changed:dark_dragon", "weight": 1, "minCount": 1, "maxCount": 1 }
+  ]
+}

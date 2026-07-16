@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:room",
+    "template": "changed:facility/room/maintenance/room_maintenance_storage",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:maintenance"
+  ]
+}

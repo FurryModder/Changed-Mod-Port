@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "tag":  "changed:crafting_brown_block"
+                   },
+    "result":  {
+                   "id":  "changed:wall_library_upper",
+                   "count":  1
+               }
+}

@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:room",
+    "template": "changed:facility/room/red/red_dl_test",
+    "loot_table": "changed:chests/decayed_lab_dl"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:office"
+  ]
+}

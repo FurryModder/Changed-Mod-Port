@@ -1,0 +1,10 @@
+{
+  "piece": {
+    "type": "changed:seal",
+    "template": "changed:facility/seal/seal_blue"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:entrance"
+  ]
+}

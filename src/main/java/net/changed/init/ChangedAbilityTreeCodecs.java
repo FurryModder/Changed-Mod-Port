@@ -1,0 +1,82 @@
+package net.changed.init;
+
+import com.mojang.serialization.Codec;
+import net.changed.Changed;
+import net.changed.ability.tree.*;
+import net.changed.ability.tree.condition.*;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
+public class ChangedAbilityTreeCodecs {
+    public static final DeferredRegister<Codec<? extends AbilityTree.NodeEffect>> NODE_EFFECT_REGISTRY = ChangedRegistry.ABILITY_NODE_EFFECTS.createDeferred(Changed.MODID);
+
+    /**
+     * A group of node effects. This is useful for controlling multiple effects under one condition.
+     */
+    public static final DeferredHolder<Codec<? extends AbilityTree.NodeEffect>, Codec<GroupNodeEffect>> GROUP_EFFECT = NODE_EFFECT_REGISTRY.register("group", () -> GroupNodeEffect.CODEC);
+    /**
+     * A group of node effects that can be toggled by the entity to be enabled or disabled.
+     * Allows for the creation of an ability that applies effects when enabled.
+     * If the effect is active: the entity has access to an ability that allows them to toggle the state of sub effects.
+     */
+    public static final DeferredHolder<Codec<? extends AbilityTree.NodeEffect>, Codec<ToggleGroupNodeEffect>> TOGGLE_GROUP_EFFECT = NODE_EFFECT_REGISTRY.register("active/toggle_group", () -> ToggleGroupNodeEffect.CODEC);
+    /**
+     * Adds a scalar to the specified attribute in the entity. Can be positive or negative.
+     */
+    public static final DeferredHolder<Codec<? extends AbilityTree.NodeEffect>, Codec<AttributeModifierNodeEffect>> ATTRIBUTE_MODIFIER_EFFECT = NODE_EFFECT_REGISTRY.register("attribute_modifier", () -> AttributeModifierNodeEffect.CODEC);
+    /**
+     * Applies a MobEffect to the entity.
+     */
+    public static final DeferredHolder<Codec<? extends AbilityTree.NodeEffect>, Codec<MobEffectNodeEffect>> MOB_EFFECT_EFFECT = NODE_EFFECT_REGISTRY.register("mob_effect", () -> MobEffectNodeEffect.CODEC);
+    /**
+     * Grants the ability to create an item, with a condition, exhaustion, and hunger required.
+     * If the effect is active: the entity has access to an ability that allows them to create the defined item.
+     */
+    public static final DeferredHolder<Codec<? extends AbilityTree.NodeEffect>, Codec<CreateItemAbilityNodeEffect>> CREATE_ITEM_ABILITY_EFFECT = NODE_EFFECT_REGISTRY.register("active/create_item_effect", () -> CreateItemAbilityNodeEffect.CODEC);
+
+    public static final DeferredRegister<Codec<? extends AbstractCondition>> EFFECT_CONDITION_REGISTRY = ChangedRegistry.ABILITY_EFFECT_CONDITIONS.createDeferred(Changed.MODID);
+
+    /**
+     * Always resolves to `true`. This is the default condition used.
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<TrueCondition>> TRUE_CONDITION = EFFECT_CONDITION_REGISTRY.register("true", () -> TrueCondition.CODEC);
+    /**
+     * Only resolves to `true` if all sub conditions resolve to `true`, or if this has no sub conditions.
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<AllCondition>> ALL_CONDITION = EFFECT_CONDITION_REGISTRY.register("all", () -> AllCondition.CODEC);
+    /**
+     * Resolves to `true` if any of the sub conditions resolve to `true`. Resolves to `false` if this has no sub conditions.
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<AnyCondition>> ANY_CONDITION = EFFECT_CONDITION_REGISTRY.register("any", () -> AnyCondition.CODEC);
+    /**
+     * Resolves to `true` if none of the sub conditions resolve to `true`, or if this has no sub conditions.
+     * Can be used to negate a condition.
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<NoneCondition>> NONE_CONDITION = EFFECT_CONDITION_REGISTRY.register("none", () -> NoneCondition.CODEC);
+    /**
+     * Resolves to `true` if and only if the entities tickCount modulo this tickRate is zero (entity.tickCount % tickRate == 0).
+     * Can be used to have an effect run only every set of ticks (i.e. once every 20 ticks)
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<NthTickCondition>> NTH_TICK_CONDITION = EFFECT_CONDITION_REGISTRY.register("nth_tick", () -> NthTickCondition.CODEC);
+    /**
+     * Resolves to `true` if the entity is standing on a block that matches any of the given predicates (exact ID, block tag)
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<StandingOnCondition>> STANDING_ON_CONDITION = EFFECT_CONDITION_REGISTRY.register("standing_on", () -> StandingOnCondition.CODEC);
+    /**
+     * Resolves to `true` if the entity is either `touching` the fluid predicate, or is `submerged` in the fluid predicate.
+     * <p>`touching` tests if the entity's hitbox intersects with the fluid</p>
+     * <p>`submerged` tests if the fluid on the entity's "eye" is the specified fluid</p>
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<InFluidCondition>> IN_FLUID_CONDITION = EFFECT_CONDITION_REGISTRY.register("in_fluid", () -> InFluidCondition.CODEC);
+    /**
+     * Resolves to `true` if the entity is exposed to the level of light specified.
+     * <p>`blockScale` scales the contribution of block light to the test</p>
+     * <p>`sunScale` scales the contribution of skylight to the test (depends on the angle of the sun)</p>
+     * <p>`moonScale` scales the contribution of moon light to the test (depends on the angle and phase of the moon)</p>
+     * The light contribution is computed as such: (blockLight [0-15] * blockScale) + (sunLight [0-15] * cos(sunAngle) * sunScale) + (moonLight [0-4] * cos(moonAngle) * moonScale).
+     * The resolved value is done through an integer comparison of the computed light contribution to the threshold.
+     * `greater_than` will test if the computed light contribution is greater than the threshold, and is the default value.
+     * This can be used to test if the entity is exposed varying facets of light, such as sun exposure, moon exposure, absence of light, etc.
+     */
+    public static final DeferredHolder<Codec<? extends AbstractCondition>, Codec<LightExposureCondition>> LIGHT_EXPOSURE_CONDITION = EFFECT_CONDITION_REGISTRY.register("light_exposure", () -> LightExposureCondition.CODEC);
+}

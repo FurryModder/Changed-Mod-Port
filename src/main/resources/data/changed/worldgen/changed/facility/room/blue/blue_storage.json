@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:room",
+    "template": "changed:facility/room/blue/blue_storage",
+    "loot_table": "changed:chests/lab_white_latex"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:entrance"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:corridor",
+    "template": "changed:facility/corridor/turn/blue/corridor_blue_turn_v1",
+    "loot_table": "changed:chests/low_tier_lab"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:entrance"
+  ]
+}

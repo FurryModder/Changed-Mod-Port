@@ -1,0 +1,11 @@
+{
+  "piece": {
+    "type": "changed:room",
+    "template": "changed:facility/room/red/red_storage",
+    "loot_table": "changed:chests/lab_dark_latex"
+  },
+  "spawn_weight": 20,
+  "neighboring_zones": [
+    "changed:office"
+  ]
+}

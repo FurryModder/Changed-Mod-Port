@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "changed:latex_benign_orca",
+    "changed:latex_eel",
+    "changed:latex_manta_ray_female",
+    "changed:latex_manta_ray_male",
+    "changed:latex_mermaid_shark",
+    "changed:latex_siren",
+    "changed:latex_shark",
+    "changed:latex_shark_male",
+    "changed:latex_shark_female",
+    "changed:latex_squid_dog_female",
+    "changed:latex_squid_dog_male",
+    "changed:latex_tiger_shark",
+    "changed:latex_orca",
+    "changed:latex_shark_feral"
+  ]
+}

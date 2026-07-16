@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "changed:item/diamond_quadrupedal_leggings",
+    "layer1": "changed:trims/items/quadrupedal_leggings_trim_iron"
+  }
+}

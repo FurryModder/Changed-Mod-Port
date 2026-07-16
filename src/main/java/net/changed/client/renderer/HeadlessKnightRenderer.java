@@ -1,0 +1,36 @@
+package net.changed.client.renderer;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.changed.Changed;
+import net.changed.client.renderer.layers.LatexParticlesLayer;
+import net.changed.client.renderer.layers.TaurChestPackLayer;
+import net.changed.client.renderer.layers.TransfurCapeLayer;
+import net.changed.client.renderer.model.HeadlessKnightModel;
+import net.changed.client.renderer.model.armor.ArmorLatexCentaurLowerModel;
+import net.changed.entity.beast.HeadlessKnight;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.layers.SaddleLayer;
+import net.minecraft.resources.ResourceLocation;
+
+public class HeadlessKnightRenderer extends AdvancedHumanoidRenderer<HeadlessKnight, HeadlessKnightModel> {
+    public static final ResourceLocation DEFAULT_SKIN_LOCATION = Changed.modResource("textures/headless_knight.png");
+
+    public HeadlessKnightRenderer(EntityRendererProvider.Context context) {
+        super(context, new HeadlessKnightModel(context.bakeLayer(HeadlessKnightModel.LAYER_LOCATION)), ArmorLatexCentaurLowerModel.MODEL_SET_NO_TORSO, 0.7f);
+        this.addLayer(new LatexParticlesLayer<>(this, getModel()));
+        this.addLayer(TransfurCapeLayer.normalCape(this, context.getModelSet()));
+        this.addLayer(new SaddleLayer<>(this, getModel(), Changed.modResource("textures/white_latex_centaur_saddle.png")));
+        this.addLayer(new TaurChestPackLayer<>(this, context.getModelSet()));
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(HeadlessKnight entity) {
+        return DEFAULT_SKIN_LOCATION;
+    }
+
+    @Override
+    protected void scale(HeadlessKnight entity, PoseStack pose, float partialTick) {
+        super.scale(entity, pose, partialTick);
+        pose.scale(1.05f, 1.05f, 1.05f);
+    }
+}

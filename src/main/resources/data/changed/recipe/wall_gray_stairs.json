@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "changed:wall_gray"
+    }
+  },
+  "result": {
+    "id": "changed:wall_gray_stairs",
+    "count": 4
+  }
+}

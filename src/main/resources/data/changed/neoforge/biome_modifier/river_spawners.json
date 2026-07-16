@@ -1,0 +1,18 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_river",
+  "spawners": [
+    { "type": "changed:latex_manta_ray_male", "weight": 3, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_manta_ray_female", "weight": 3, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_mermaid_shark", "weight": 2, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_siren", "weight": 2, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_shark", "weight": 10, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_shark_male", "weight": 3, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_shark_female", "weight": 3, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_shark_feral", "weight": 10, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_tiger_shark", "weight": 2, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_orca", "weight": 8, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_squid_dog_male", "weight": 8, "minCount": 1, "maxCount": 3 },
+    { "type": "changed:latex_squid_dog_female", "weight": 8, "minCount": 1, "maxCount": 3 }
+  ]
+}

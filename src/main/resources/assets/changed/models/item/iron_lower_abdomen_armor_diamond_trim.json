@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "changed:item/iron_lower_abdomen_armor",
+    "layer1": "changed:trims/items/lower_abdomen_armor_trim_diamond"
+  }
+}

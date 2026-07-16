@@ -1,0 +1,8 @@
+{
+  "parent": "changed:custom/white_latex_pillar_full",
+  "textures": {
+    "all": "changed:block/white_latex_pillar",
+    "particle": "changed:block/white_latex_pillar",
+    "0": "changed:block/white_latex_pillar"
+  }
+}

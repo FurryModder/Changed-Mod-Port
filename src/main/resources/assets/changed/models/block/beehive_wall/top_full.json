@@ -1,0 +1,17 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"2": "changed:block/beehive_outer",
+		"particle": "changed:block/beehive_outer"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface": "up"}
+			}
+		}
+	]
+}

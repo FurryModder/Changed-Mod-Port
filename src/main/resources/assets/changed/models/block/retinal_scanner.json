@@ -1,0 +1,8 @@
+{
+  "parent": "changed:custom/retinal_scanner",
+  "textures": {
+    "all": "changed:block/retinal_scanner",
+    "particle": "changed:block/retinal_scanner",
+    "0": "changed:block/retinal_scanner"
+  }
+}

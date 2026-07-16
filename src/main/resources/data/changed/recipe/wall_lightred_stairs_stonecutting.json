@@ -1,0 +1,10 @@
+﻿{
+    "type":  "minecraft:stonecutting",
+    "ingredient":  {
+                       "item":  "changed:wall_lightred"
+                   },
+    "result":  {
+                   "id":  "changed:wall_lightred_stairs",
+                   "count":  1
+               }
+}
