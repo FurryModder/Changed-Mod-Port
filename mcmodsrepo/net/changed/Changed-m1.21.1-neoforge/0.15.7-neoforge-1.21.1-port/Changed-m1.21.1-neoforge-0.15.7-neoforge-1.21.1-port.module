@@ -1,0 +1,69 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "net.changed",
+    "module": "Changed-m1.21.1-neoforge",
+    "version": "0.15.7-neoforge-1.21.1-port",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.2.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "Changed-m1.21.1-neoforge-0.15.7-neoforge-1.21.1-port.jar",
+          "url": "Changed-m1.21.1-neoforge-0.15.7-neoforge-1.21.1-port.jar",
+          "size": 16059475,
+          "sha512": "03bb37211dec87298335762677f5b239d941700d5d9e1fcc493c3998ad25a5ec0e4cee40957d56e503d33b4c55a5abaae804b35c52a60200503c761323bea666",
+          "sha256": "758d59d526e08ec7e0630711ded537482b2631c8f9c459bbe408fbce598147f2",
+          "sha1": "0dc397c762b162211194758b3f808c4934700cb7",
+          "md5": "1546a6f398dbc7b876a512c2e47d4d1e"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.llamalad7",
+          "module": "mixinextras-neoforge",
+          "version": {
+            "requires": "0.4.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "Changed-m1.21.1-neoforge-0.15.7-neoforge-1.21.1-port.jar",
+          "url": "Changed-m1.21.1-neoforge-0.15.7-neoforge-1.21.1-port.jar",
+          "size": 16059475,
+          "sha512": "03bb37211dec87298335762677f5b239d941700d5d9e1fcc493c3998ad25a5ec0e4cee40957d56e503d33b4c55a5abaae804b35c52a60200503c761323bea666",
+          "sha256": "758d59d526e08ec7e0630711ded537482b2631c8f9c459bbe408fbce598147f2",
+          "sha1": "0dc397c762b162211194758b3f808c4934700cb7",
+          "md5": "1546a6f398dbc7b876a512c2e47d4d1e"
+        }
+      ]
+    }
+  ]
+}
