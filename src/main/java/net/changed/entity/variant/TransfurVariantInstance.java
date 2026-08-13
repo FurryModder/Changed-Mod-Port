@@ -419,6 +419,12 @@ public abstract class TransfurVariantInstance<T extends ChangedEntity> {
         Player player = event.getEntity();
         Pale.tickPaleExposure(player);
         ProcessTransfur.ifPlayerTransfurred(player, instance -> {
+            // LivingDeathEvent restores the player's pre-transfur attributes. Do not let a
+            // final tick of an unfinished transfur apply its interpolated attributes again;
+            // ServerPlayer.restoreFrom would then copy those stale values to the respawned player.
+            if (player.isDeadOrDying())
+                return;
+
             if (ChangedCompatibility.isPlayerUsedByOtherMod(player)) {
                 ProcessTransfur.removePlayerTransfurVariant(player);
                 return;

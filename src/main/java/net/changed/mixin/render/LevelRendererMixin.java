@@ -9,12 +9,15 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.Util;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.changed.client.ChangedClient;
 import net.changed.client.WaveVisionRenderer;
 import net.changed.extension.ChangedCompatibility;
+import net.changed.init.ChangedJukeboxSongs;
 import net.changed.util.Cacheable;
 import net.changed.util.CameraUtil;
 import net.minecraft.client.Camera;
@@ -39,12 +42,18 @@ import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.BlockDestructionProgress;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -73,6 +82,27 @@ public abstract class LevelRendererMixin {
     @Shadow @Final private EntityRenderDispatcher entityRenderDispatcher;
     @Shadow @Final private BlockEntityRenderDispatcher blockEntityRenderDispatcher;
     @Shadow @Final private RenderBuffers renderBuffers;
+
+    @WrapOperation(method = "playJukeboxSong", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;forJukeboxSong(Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;"))
+    private SimpleSoundInstance changed$playLoopedJukeboxSong(SoundEvent soundEvent, Vec3 position,
+                                                              Operation<SimpleSoundInstance> original,
+                                                              @Local(argsOnly = true) Holder<JukeboxSong> song) {
+        if (!ChangedJukeboxSongs.isLooped(song))
+            return original.call(soundEvent, position);
+
+        return new SimpleSoundInstance(soundEvent.getLocation(),
+                SoundSource.RECORDS,
+                4.0F,
+                1.0F,
+                SoundInstance.createUnseededRandom(),
+                true,
+                0,
+                SoundInstance.Attenuation.LINEAR,
+                position.x,
+                position.y,
+                position.z,
+                false);
+    }
     @Shadow @Final private ObjectArrayList<SectionRenderDispatcher.RenderSection> visibleSections;
     @Shadow @Final private Set<BlockEntity> globalBlockEntities;
     @Shadow @Final private Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress;

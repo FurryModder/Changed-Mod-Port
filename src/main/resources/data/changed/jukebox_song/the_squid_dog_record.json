@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.the_squid_dog_record.desc"
+  },
+  "length_in_seconds": 32.14,
+  "sound_event": "changed:music.the_squid_dog"
+}

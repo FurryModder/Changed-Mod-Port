@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.the_library_record.desc"
+  },
+  "length_in_seconds": 48.02,
+  "sound_event": "changed:music.the_library"
+}

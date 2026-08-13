@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.outside_the_tower_record.desc"
+  },
+  "length_in_seconds": 51.2,
+  "sound_event": "changed:music.outside_the_tower"
+}

@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.crystal_zone_record.desc"
+  },
+  "length_in_seconds": 51.32,
+  "sound_event": "changed:music.crystal_zone"
+}

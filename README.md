@@ -15,7 +15,7 @@ compatibility differences from the upstream version.
 - Minecraft: `1.21.1`
 - NeoForge: `21.1.233` or newer
 - Java: `21`
-- Port version: `0.15.7-neoforge-1.21.1-port`
+- Port version: `0.15.7.1`
 
 ## Building
 

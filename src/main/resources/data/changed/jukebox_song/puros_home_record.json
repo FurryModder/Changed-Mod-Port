@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.puros_home_record.desc"
+  },
+  "length_in_seconds": 56.86,
+  "sound_event": "changed:music.puros_home"
+}

@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.the_white_tail_chase_part_2_record.desc"
+  },
+  "length_in_seconds": 17.2,
+  "sound_event": "changed:music.the_white_tail_chase_part_2"
+}

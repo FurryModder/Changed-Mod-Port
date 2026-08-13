@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.gas_room_record.desc"
+  },
+  "length_in_seconds": 11.44,
+  "sound_event": "changed:music.gas_room"
+}

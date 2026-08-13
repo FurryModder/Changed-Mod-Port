@@ -42,6 +42,7 @@
     "item.ArmorItemMixin",
     "item.ItemMixin",
     "item.ItemStackMixin",
+    "item.JukeboxSongPlayerMixin",
     "item.SaddleItemMixin",
     "network.ClientboundSetEntityLinkPacketMixin",
     "network.FriendlyByteBufMixin",

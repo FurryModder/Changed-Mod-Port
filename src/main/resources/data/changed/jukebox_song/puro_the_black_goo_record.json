@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.puro_the_black_goo_record.desc"
+  },
+  "length_in_seconds": 59.22,
+  "sound_event": "changed:music.puro_the_black_goo"
+}

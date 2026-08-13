@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.the_scarlet_crystal_mine_record.desc"
+  },
+  "length_in_seconds": 32.02,
+  "sound_event": "changed:music.the_scarlet_crystal_mine"
+}

@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "item.changed.black_goo_zone_record.desc"
+  },
+  "length_in_seconds": 112.08,
+  "sound_event": "changed:music.black_goo_zone"
+}
