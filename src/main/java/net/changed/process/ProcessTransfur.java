@@ -674,7 +674,7 @@ public class ProcessTransfur {
                 if (entity.getHealth() - damage > 0)
                     entity.setHealth(entity.getHealth() - damage);
                 else
-                    entity.hurt(source, Float.MAX_VALUE);
+                    entity.hurt(source, 1000000.0F); //Fix of not dealing damage because NaN value
             }
         }
     }

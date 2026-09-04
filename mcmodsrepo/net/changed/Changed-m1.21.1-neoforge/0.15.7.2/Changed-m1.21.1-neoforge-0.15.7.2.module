@@ -1,0 +1,69 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "net.changed",
+    "module": "Changed-m1.21.1-neoforge",
+    "version": "0.15.7.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.2.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "Changed-m1.21.1-neoforge-0.15.7.2.jar",
+          "url": "Changed-m1.21.1-neoforge-0.15.7.2.jar",
+          "size": 16068492,
+          "sha512": "e6866480bfaf4d05bc8ecddaac100d19b0abc663c7f0894bdb4d371d0b5559f4f92a8cc89a8eaeca1aa2c54d7ec38b3cdc3edcba4d0b7023d849a7954ac40885",
+          "sha256": "26fd195356981e826f9967c58fb5deb86e5e0a0a7f31ac96af43bec7eeec6561",
+          "sha1": "9b8e72ae2dcf1bd9ae6fcfb4cd8c6711e584a3a1",
+          "md5": "72be60f394dafd7f98e9e3ae7db40a8d"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.llamalad7",
+          "module": "mixinextras-neoforge",
+          "version": {
+            "requires": "0.4.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "Changed-m1.21.1-neoforge-0.15.7.2.jar",
+          "url": "Changed-m1.21.1-neoforge-0.15.7.2.jar",
+          "size": 16068492,
+          "sha512": "e6866480bfaf4d05bc8ecddaac100d19b0abc663c7f0894bdb4d371d0b5559f4f92a8cc89a8eaeca1aa2c54d7ec38b3cdc3edcba4d0b7023d849a7954ac40885",
+          "sha256": "26fd195356981e826f9967c58fb5deb86e5e0a0a7f31ac96af43bec7eeec6561",
+          "sha1": "9b8e72ae2dcf1bd9ae6fcfb4cd8c6711e584a3a1",
+          "md5": "72be60f394dafd7f98e9e3ae7db40a8d"
+        }
+      ]
+    }
+  ]
+}
