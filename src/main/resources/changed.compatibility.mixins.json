@@ -1,10 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.changed.mixin.compatibility",
+  "package": "net.furrymodder.changed.mixin.compatibility",
   "compatibilityLevel": "JAVA_21",
   "refmap": "changed.refmap.json",
-  "plugin": "net.changed.mixin.compatibility.ChangedMixinPlugin",
+  "plugin": "net.furrymodder.changed.mixin.compatibility.ChangedMixinPlugin",
   "mixins": [
     "AttributesLib.AttributeEventsMixin",
     "Curios.CuriosApiMixin"

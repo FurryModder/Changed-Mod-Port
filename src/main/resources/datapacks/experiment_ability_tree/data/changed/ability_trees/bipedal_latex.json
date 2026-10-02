@@ -88,7 +88,7 @@
       "missingEffects": [
         {
           "type": "changed:attribute_modifier",
-          "attribute": "forge:step_height_addition",
+          "attribute": "minecraft:generic.step_height",
           "method": "add",
           "factor": -2.0
         }

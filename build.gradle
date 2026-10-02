@@ -21,30 +21,30 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 sourceSets.main.java {
-    exclude 'net/changed/extension/rei/**'
-    exclude 'net/changed/extension/origins/**'
-    exclude 'net/changed/mixin/compatibility/BeyondEarth/**'
-    exclude 'net/changed/mixin/compatibility/CarryOn/**'
-    exclude 'net/changed/mixin/compatibility/CreatureChat/**'
-    exclude 'net/changed/mixin/compatibility/DoABarrelRoll/**'
-    exclude 'net/changed/mixin/compatibility/EMF/**'
-    exclude 'net/changed/mixin/compatibility/FirstPerson/**'
-    exclude 'net/changed/mixin/compatibility/Forgery/**'
-    exclude 'net/changed/mixin/compatibility/HardcoreRevival/**'
-    exclude 'net/changed/mixin/compatibility/JEG/**'
-    exclude 'net/changed/mixin/compatibility/Leashed/**'
-    exclude 'net/changed/mixin/compatibility/NotEnoughAnimations/**'
-    exclude 'net/changed/mixin/compatibility/Parcool/**'
-    exclude 'net/changed/mixin/compatibility/Pehkui/**'
-    exclude 'net/changed/mixin/compatibility/Personality/**'
-    exclude 'net/changed/mixin/compatibility/PlayerAnimator/**'
-    exclude 'net/changed/mixin/compatibility/PresenceFootsteps/**'
-    exclude 'net/changed/mixin/compatibility/SG2/**'
-    exclude 'net/changed/mixin/compatibility/SleepTight/**'
-    exclude 'net/changed/mixin/compatibility/TaCZ/**'
-    exclude 'net/changed/mixin/compatibility/Vivecraft/**'
-    exclude 'net/changed/mixin/compatibility/WATUT/**'
-    exclude 'net/changed/datagen/**'
+    exclude 'net/furrymodder/changed/extension/rei/**'
+    exclude 'net/furrymodder/changed/extension/origins/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/BeyondEarth/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/CarryOn/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/CreatureChat/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/DoABarrelRoll/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/EMF/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/FirstPerson/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/Forgery/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/HardcoreRevival/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/JEG/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/Leashed/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/NotEnoughAnimations/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/Parcool/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/Pehkui/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/Personality/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/PlayerAnimator/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/PresenceFootsteps/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/SG2/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/SleepTight/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/TaCZ/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/Vivecraft/**'
+    exclude 'net/furrymodder/changed/mixin/compatibility/WATUT/**'
+    exclude 'net/furrymodder/changed/datagen/**'
 }
 
 sourceSets.main.resources {
@@ -52,6 +52,14 @@ sourceSets.main.resources {
     exclude 'META-INF/mods.toml'
     exclude '**/*.bbmodel'
     exclude 'src/generated/**/.cache'
+}
+
+tasks.named('processResources') {
+    eachFile { details ->
+        if (details.file.canonicalFile == file('src/main/resources/META-INF/neoforge.mods.toml').canonicalFile) {
+            details.exclude()
+        }
+    }
 }
 
 repositories {
@@ -131,16 +139,15 @@ def extractSodiumFabricApiModules = tasks.register('extractSodiumFabricApiModule
 dependencies {
     annotationProcessor project(':ap')
 
-    compileOnly 'io.github.llamalad7:mixinextras-common:0.4.1'
-    implementation 'io.github.llamalad7:mixinextras-neoforge:0.4.1'
+    implementation(jarJar('io.github.llamalad7:mixinextras-neoforge:0.5.5'))
 
     compileOnly 'org.jetbrains:annotations:24.1.0'
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
 
     compileOnly 'maven.modrinth:apothic-attributes:Z0nG7STl'
-    compileOnly 'maven.modrinth:create:88L641Un'
+    compileOnly 'maven.modrinth:create:UjX6dr61'
     compileOnly 'maven.modrinth:curios:yohfFbgD'
-    compileOnly 'maven.modrinth:entityculling:5zRIon6w'
+    compileOnly 'maven.modrinth:entityculling:8w8FfUPs'
     compileOnly 'maven.modrinth:journeymap:RKfLrEYQ'
     compileOnly 'info.journeymap:journeymap-api-neoforge:2.0.0-1.21.1'
     compileOnly 'maven.modrinth:moonlight:5njDrYO0'
@@ -154,11 +161,12 @@ dependencies {
     // Dev-only compatibility test mods. These are added to the run classpath, not packed into the mod jar.
     localRuntime 'maven.modrinth:apothic-attributes:Z0nG7STl'
     localRuntime 'maven.modrinth:placebo:nU7CXkMr'
-    localRuntime 'maven.modrinth:create:88L641Un'
+    localRuntime 'maven.modrinth:create:UjX6dr61'
     localRuntime 'dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.6'
-    localRuntime 'net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.69'
+//    localRuntime 'net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.81'
     localRuntime 'maven.modrinth:curios:yohfFbgD'
-    localRuntime 'maven.modrinth:entityculling:5zRIon6w'
+    localRuntime 'maven.modrinth:c2me-neoforge:yxOYFgnK'
+    localRuntime 'maven.modrinth:entityculling:8w8FfUPs'
     localRuntime 'maven.modrinth:moonlight:5njDrYO0'
     localRuntime 'maven.modrinth:sodium:Pb3OXVqC'
     localRuntime 'mezz.jei:jei-1.21.1-neoforge:19.27.0.343'

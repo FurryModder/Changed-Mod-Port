@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.changed.mixin",
+  "package": "net.furrymodder.changed.mixin",
   "compatibilityLevel": "JAVA_21",
   "refmap": "changed.refmap.json",
   "mixins": [

@@ -1,7 +1,7 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "group": "net.changed",
+    "group": "net.furrymodder.changed",
     "module": "Changed-m1.21.1-neoforge",
     "version": "0.15.7.2",
     "attributes": {

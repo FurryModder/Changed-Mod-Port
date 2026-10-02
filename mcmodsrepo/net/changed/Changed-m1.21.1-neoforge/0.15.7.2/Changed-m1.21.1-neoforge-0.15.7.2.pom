@@ -7,7 +7,7 @@
   <!-- that they should prefer consuming it instead. -->
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
-  <groupId>net.changed</groupId>
+  <groupId>net.furrymodder.changed</groupId>
   <artifactId>Changed-m1.21.1-neoforge</artifactId>
   <version>0.15.7.2</version>
   <dependencies>

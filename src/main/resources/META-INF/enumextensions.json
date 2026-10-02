@@ -11,7 +11,7 @@
       "name": "CHANGED_INFUSER_SEARCH",
       "constructor": "(Ljava/util/function/Supplier;)V",
       "parameters": {
-        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "class": "net/furrymodder/changed/client/InfuserRecipeBookEnumParams",
         "method": "getSearchIcon"
       }
     },
@@ -20,7 +20,7 @@
       "name": "CHANGED_INFUSER_DARK_LATEX",
       "constructor": "(Ljava/util/function/Supplier;)V",
       "parameters": {
-        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "class": "net/furrymodder/changed/client/InfuserRecipeBookEnumParams",
         "method": "getDarkLatexIcon"
       }
     },
@@ -29,7 +29,7 @@
       "name": "CHANGED_INFUSER_WHITE_LATEX",
       "constructor": "(Ljava/util/function/Supplier;)V",
       "parameters": {
-        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "class": "net/furrymodder/changed/client/InfuserRecipeBookEnumParams",
         "method": "getWhiteLatexIcon"
       }
     },
@@ -38,7 +38,7 @@
       "name": "CHANGED_INFUSER_AQUATIC",
       "constructor": "(Ljava/util/function/Supplier;)V",
       "parameters": {
-        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "class": "net/furrymodder/changed/client/InfuserRecipeBookEnumParams",
         "method": "getAquaticIcon"
       }
     },
@@ -47,7 +47,7 @@
       "name": "CHANGED_INFUSER_AERIAL",
       "constructor": "(Ljava/util/function/Supplier;)V",
       "parameters": {
-        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "class": "net/furrymodder/changed/client/InfuserRecipeBookEnumParams",
         "method": "getAerialIcon"
       }
     },
@@ -56,7 +56,7 @@
       "name": "CHANGED_INFUSER_GENDERED",
       "constructor": "(Ljava/util/function/Supplier;)V",
       "parameters": {
-        "class": "net/changed/client/InfuserRecipeBookEnumParams",
+        "class": "net/furrymodder/changed/client/InfuserRecipeBookEnumParams",
         "method": "getGenderedIcon"
       }
     }
